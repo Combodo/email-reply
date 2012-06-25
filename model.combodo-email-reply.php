@@ -81,7 +81,7 @@ class CombodoEmailReplyPlugIn implements iApplicationUIExtension, iApplicationOb
 		{
 			$sAttCode = MetaModel::GetModuleSetting('combodo-email-reply', 'target_caselog', 'ticket_log');
 			$sOperation = utils::ReadPostedParam('email_reply_trigger', null);
-			$sLog = utils::ReadPostedParam('attr_public_log', null,false,'raw_data');
+			$sLog = utils::ReadPostedParam('attr_'.$sAttCode, null,false,'raw_data');
 			if (($sOperation == 'yes') && ($sLog != null))
 			{
 				// Trigger ?
