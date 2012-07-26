@@ -26,6 +26,7 @@
 /**
  * To trigger notifications when a ticket is updated from the portal
  */
+
 class TriggerOnLogUpdate extends TriggerOnObject
 {
 	public static function Init()
@@ -66,8 +67,17 @@ class CombodoEmailReplyPlugIn implements iApplicationUIExtension, iApplicationOb
 	{
 		if ($bEditMode && self::IsTargetObject($oObject) && !$oObject->IsNew())
 		{
-			$sAttCode = MetaModel::GetModuleSetting('combodo-email-reply', 'target_caselog', 'ticket_log');
-			$oPage->add_ready_script("$('#field_2_$sAttCode div.caselog_input_header').append('<input id=\"email_reply_trigger\" type=\"checkbox\" checked name=\"email_reply_trigger\" value=\"yes\">&nbsp;<img src=\"../images/mail.png\">');");
+			$aAttCodes = MetaModel::GetModuleSetting('combodo-email-reply', 'target_caselog', array());
+			foreach($aAttCodes as $sAllowedClass => $aFields)
+			{
+				if ($oObject instanceof $sAllowedClass)
+				{
+					foreach($aFields as $sAttCode)
+					{
+						$oPage->add_ready_script("$('#field_2_$sAttCode div.caselog_input_header').append('<input type=\"checkbox\" name=\"email_reply_trigger[$sAttCode]\" value=\"yes\">&nbsp;<img src=\"../images/mail.png\">');");
+					}	
+				}
+			}
 		}
 	}
 
@@ -79,19 +89,25 @@ class CombodoEmailReplyPlugIn implements iApplicationUIExtension, iApplicationOb
 	{
 		if (self::IsTargetObject($oObject))
 		{
-			$sAttCode = MetaModel::GetModuleSetting('combodo-email-reply', 'target_caselog', 'ticket_log');
-			$sOperation = utils::ReadPostedParam('email_reply_trigger', null);
-			$sLog = utils::ReadPostedParam('attr_'.$sAttCode, null,false,'raw_data');
-			if (($sOperation == 'yes') && ($sLog != null))
+			$aOperations = utils::ReadPostedParam('email_reply_trigger', array());
+			$aAttCodes = MetaModel::GetModuleSetting('combodo-email-reply', 'target_caselog', array());
+			foreach($aAttCodes as $sAllowedClass => $aFields)
 			{
-				// Trigger ?
-				//
-				$aClasses = MetaModel::EnumParentClasses(get_class($oObject), ENUM_PARENT_CLASSES_ALL);
-				$sClassList = implode(", ", CMDBSource::Quote($aClasses));
-				$oSet = new DBObjectSet(DBObjectSearch::FromOQL("SELECT TriggerOnLogUpdate AS t WHERE t.target_class IN ($sClassList)"));
-				while ($oTrigger = $oSet->Fetch())
+				foreach($aFields as $sAttCode)
 				{
-					$oTrigger->DoActivate($oObject->ToArgs('this'));
+					$sOperation = isset($aOperations[$sAttCode]) ? $aOperations[$sAttCode] : 'no';
+					if ($sOperation == 'yes')
+					{
+						// Trigger ?
+						//
+						$aClasses = MetaModel::EnumParentClasses($sClass, ENUM_PARENT_CLASSES_ALL);
+						$sClassList = implode(", ", CMDBSource::Quote($aClasses));
+						$oSet = new DBObjectSet(DBObjectSearch::FromOQL("SELECT TriggerOnLogUpdate AS t WHERE t.target_class IN ($sClassList)"));
+						while ($oTrigger = $oSet->Fetch())
+						{
+							$oTrigger->DoActivate($oObject->ToArgs('this'));
+						}
+					}
 				}
 			}
 		}
@@ -159,8 +175,15 @@ class CombodoEmailReplyPlugIn implements iApplicationUIExtension, iApplicationOb
 	
 	protected function IsTargetObject($oObject)
 	{
-		$sAllowedClass = MetaModel::GetModuleSetting('combodo-email-reply', 'target_class', 'Ticket');
-		return ($oObject instanceof $sAllowedClass);
+		$aAttCodes = MetaModel::GetModuleSetting('combodo-email-reply', 'target_caselog', array());
+		foreach($aAttCodes as $sAllowedClass => $aFields)
+		{
+			if ($oObject instanceof $sAllowedClass)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }
 ?>

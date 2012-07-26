@@ -24,7 +24,6 @@
  */
 
 Dict::Add('EN US', 'English', 'English', array(
-	'Class:TriggerOnLogUpdate' => 'Trigger (when log is updated)',
-	'Class:TriggerOnLogUpdate+' => 'Trigger when the ticket log is updated',
+	// Dictionary entries go here
 ));
 ?>

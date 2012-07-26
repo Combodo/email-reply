@@ -54,8 +54,10 @@ SetupWebPage::AddModule(
 		// Default settings
 		//
 		'settings' => array(
-			'target_class' => 'Ticket',
-			'target_caselog' => 'public_log',
+			'target_caselog' => array(
+				// For each class (and its derived classes) a list of fields (attcode) to enable the 'send email' checkbox and icon
+				'Ticket' => array('ticket_log'),
+			),
 		),
 	)
 );

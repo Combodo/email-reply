@@ -24,7 +24,6 @@
  */
 
 Dict::Add('FR FR', 'French', 'Français', array(
-	'Class:TriggerOnLogUpdate' => 'Déclencheur sur mise à jour du journal d\'un ticket',
-	'Class:TriggerOnLogUpdate+' => 'Déclencheur sur mise à jour du journal d\'un ticket',
+	// Dictionary entries go here
 ));
 ?>
