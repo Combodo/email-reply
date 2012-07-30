@@ -23,7 +23,13 @@
  * @license     http://www.opensource.org/licenses/gpl-3.0.html LGPL
  */
 
+
+//
+// Class: TriggerOnLogUpdate
+//
+
 Dict::Add('FR FR', 'French', 'Français', array(
-	// Dictionary entries go here
+	'Class:TriggerOnLogUpdate' => 'Déclencheur sur mise à jour du journal',
+	'Class:TriggerOnLogUpdate+' => 'Déclencheur sur mise à jour du journal',
 ));
 ?>

@@ -23,7 +23,13 @@
  * @license     http://www.opensource.org/licenses/gpl-3.0.html LGPL
  */
 
+//
+// Class: TriggerOnLogUpdate
+//
+
 Dict::Add('EN US', 'English', 'English', array(
-	// Dictionary entries go here
+	'Class:TriggerOnLogUpdate' => 'Trigger (when log is updated)',
+	'Class:TriggerOnLogUpdate+' => 'Trigger on a end-user\'s update in log',
 ));
+
 ?>
