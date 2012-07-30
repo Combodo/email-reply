@@ -74,7 +74,7 @@ class CombodoEmailReplyPlugIn implements iApplicationUIExtension, iApplicationOb
 				{
 					foreach($aFields as $sAttCode)
 					{
-						$oPage->add_ready_script("$('#field_2_$sAttCode div.caselog_input_header').append('<input type=\"checkbox\" name=\"email_reply_trigger[$sAttCode]\" value=\"yes\">&nbsp;<img src=\"../images/mail.png\">');");
+						$oPage->add_ready_script("$('#field_2_$sAttCode div.caselog_input_header').append('<input type=\"checkbox\" checked name=\"email_reply_trigger[$sAttCode]\" value=\"yes\">&nbsp;<img src=\"../images/mail.png\">');");
 					}	
 				}
 			}
@@ -100,7 +100,7 @@ class CombodoEmailReplyPlugIn implements iApplicationUIExtension, iApplicationOb
 					{
 						// Trigger ?
 						//
-						$aClasses = MetaModel::EnumParentClasses($sClass, ENUM_PARENT_CLASSES_ALL);
+						$aClasses = MetaModel::EnumParentClasses(get_class($oObject), ENUM_PARENT_CLASSES_ALL);
 						$sClassList = implode(", ", CMDBSource::Quote($aClasses));
 						$oSet = new DBObjectSet(DBObjectSearch::FromOQL("SELECT TriggerOnLogUpdate AS t WHERE t.target_class IN ($sClassList)"));
 						while ($oTrigger = $oSet->Fetch())
