@@ -96,7 +96,8 @@ class CombodoEmailReplyPlugIn implements iApplicationUIExtension, iApplicationOb
 				foreach($aFields as $sAttCode)
 				{
 					$sOperation = isset($aOperations[$sAttCode]) ? $aOperations[$sAttCode] : 'no';
-					if ($sOperation == 'yes')
+					$sLog = utils::ReadPostedParam('attr_'.$sAttCode, null,false,'raw_data');
+					if (($sOperation == 'yes') && ($sLog != null))
 					{
 						// Trigger ?
 						//
