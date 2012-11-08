@@ -48,7 +48,6 @@ function EmailReplyUpdateFileCount(sCaseLogAttCode)
 	{
 		sHtml = Dict.S('UI-emry-noattachment');
 	}
-	var api = $('#emry_file_count_'+sCaseLogAttCode).qtip("api");
-	api.destroy();
-	$('#emry_file_count_'+sCaseLogAttCode).qtip({ content: sHtml, show: 'mouseover', hide: 'unfocus', position: { corner: { target: 'topRight', tooltip: 'bottomLeft'}}, style: { name: 'dark', tip: 'bottomLeft' } });
+	var api = $('#emry_file_list_'+sCaseLogAttCode).qtip("api");
+	api.updateContent(sHtml);
 }
