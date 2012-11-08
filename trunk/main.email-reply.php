@@ -71,19 +71,19 @@ class EmailReplyPlugIn implements iApplicationUIExtension, iApplicationObjectExt
 		{
 			$bEnabled = (bool) MetaModel::GetModuleSetting('email-reply', 'enabled_default', true);
 			$sChecked = $bEnabled ? 'checked' : '';
+			$oPage->add_ready_script("$('#form_2').append('<div id=\"emry_form_extension\"></div>');");
 			foreach ($this->ListTargetCaseLogs(get_class($oObject)) as $sAttCode => $aTriggers)
 			{
 				$sModuleUrl = utils::GetAbsoluteUrlModulesRoot().'email-reply/';
 				$oPage->add_linked_script($sModuleUrl.'email-reply.js');
 				$oPage->add_dict_entry('UI-emry-noattachment');
 
-				$oPage->add_ready_script("$('#field_2_$sAttCode div.caselog_input_header').append('<input type=\"checkbox\" $sChecked name=\"emry_enabled[$sAttCode]\" value=\"yes\">&nbsp;<img src=\"../images/mail.png\">&nbsp;<span id=\"emry_file_list_$sAttCode\" style=\"display: inline-block;\"><img src=\"{$sModuleUrl}/paper_clip.png\">&nbsp;(<span id=\"emry_file_count_$sAttCode\">0</span>)</span>');");
-				$oPage->add_ready_script("$('#form_2').append('<div id=\"emry_form_extension\"></div>');");
+				$oPage->add_ready_script("$('#field_2_$sAttCode div.caselog_input_header').append('<input type=\"checkbox\" $sChecked id=\"emry_enabled_$sAttCode\" name=\"emry_enabled[$sAttCode]\" value=\"yes\">&nbsp;<img id=\"emry_event_bus_$sAttCode\" src=\"../images/mail.png\">&nbsp;<span id=\"emry_file_list_$sAttCode\" style=\"display: inline-block;\"><img src=\"{$sModuleUrl}/paper_clip.png\">&nbsp;(<span id=\"emry_file_count_$sAttCode\">0</span>)</span>');");
 
+				$oPage->add_ready_script("$('#emry_event_bus_$sAttCode').bind('add_blob', function(event, sContainerClass, sContainerId, sBlobAttCode, sFileName) {EmailReplyAddFile('$sAttCode', sContainerClass, sContainerId, sBlobAttCode, sFileName);} );");
 				$oPage->add_ready_script("$('#attachment_plugin').bind('add_attachment', function(event, attId, sAttName) {EmailReplyAddFile('$sAttCode', 'Attachment', attId, 'contents', sAttName);} );");
 				$oPage->add_ready_script("$('#attachment_plugin').bind('remove_attachment', function(event, attId, sAttName) {EmailReplyRemoveFile('$sAttCode', 'Attachment', attId, 'contents');} );");
 				$oPage->add_ready_script("$('#emry_file_list_$sAttCode').qtip({ content: '".addslashes(Dict::S('UI-emry-noattachment'))."', show: 'mouseover', hide: 'unfocus', position: { corner: { target: 'topRight', tooltip: 'bottomLeft'}}, style: { name: 'dark', tip: 'bottomLeft' } });");
-
 			}
 		}
 	}
