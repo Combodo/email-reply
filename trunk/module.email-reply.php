@@ -16,17 +16,16 @@
 
 SetupWebPage::AddModule(
 	__FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-	'combodo-email-reply/',
+	'email-reply/1.0.0',
 	array(
 		// Identification
 		//
-		'label' => 'Send Updates by Email',
+		'label' => 'Send Ticket Log Updates by Email',
 		'category' => 'business',
 
 		// Setup
 		//
 		'dependencies' => array(
-			
 		),
 		'mandatory' => false,
 		'visible' => true,
@@ -34,7 +33,7 @@ SetupWebPage::AddModule(
 		// Components
 		//
 		'datamodel' => array(
-			'model.combodo-email-reply.php'
+			'main.email-reply.php'
 		),
 		'webservice' => array(
 			
@@ -54,10 +53,7 @@ SetupWebPage::AddModule(
 		// Default settings
 		//
 		'settings' => array(
-			'target_caselog' => array(
-				// For each class (and its derived classes) a list of fields (attcode) to enable the 'send email' checkbox and icon
-				'Ticket' => array('ticket_log'),
-			),
+			'enabled_default' => true,
 		),
 	)
 );

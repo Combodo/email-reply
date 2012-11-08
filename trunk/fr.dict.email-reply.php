@@ -31,5 +31,9 @@
 Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:TriggerOnLogUpdate' => 'Déclencheur sur mise à jour du journal',
 	'Class:TriggerOnLogUpdate+' => 'Déclencheur sur mise à jour du journal',
+	'Class:TriggerOnLogUpdate/Attribute:target_log' => 'Code du journal',
+	'Class:TriggerOnLogUpdate/Attribute:target_log+' => 'Code de l\'attribut du journal concerné',
+
+	'UI-emry-noattachment' => 'Aucun attachement',
 ));
 ?>

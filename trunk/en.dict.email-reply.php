@@ -30,6 +30,10 @@
 Dict::Add('EN US', 'English', 'English', array(
 	'Class:TriggerOnLogUpdate' => 'Trigger (when log is updated)',
 	'Class:TriggerOnLogUpdate+' => 'Trigger on a end-user\'s update in log',
+	'Class:TriggerOnLogUpdate/Attribute:target_log' => 'Log attribute code',
+	'Class:TriggerOnLogUpdate/Attribute:target_log+' => 'Identifies which log will be considered',
+
+	'UI-emry-noattachment' => 'No attachment',
 ));
 
 ?>
