@@ -37,17 +37,20 @@ function EmailReplyUpdateFileCount(sCaseLogAttCode)
 {
 	var iCount  = aEmailReplyFiles[sCaseLogAttCode+'_file_count'];
 	$('#emry_file_count_'+sCaseLogAttCode).html(iCount);
-	var sHtml = '';
-	var index = 0;
+	var sText = '';
+	var idx = 0;
 	for(var index in aEmailReplyFiles[sCaseLogAttCode])
 	{
-		sHtml += aEmailReplyFiles[sCaseLogAttCode][index].sFileName+"<br>\n";
-		index++;
+		sText += aEmailReplyFiles[sCaseLogAttCode][index].sFileName;
+		idx++;
+		if (idx < aEmailReplyFiles[sCaseLogAttCode].length)
+		{
+			sText += ', ';
+		}
 	}
-	if (sHtml == '')
+	if (sText == '')
 	{
-		sHtml = Dict.S('UI-emry-noattachment');
+		sText = Dict.S('UI-emry-noattachment');
 	}
-	var api = $('#emry_file_list_'+sCaseLogAttCode).qtip("api");
-	api.updateContent(sHtml);
+	$('#emry_file_list_'+sCaseLogAttCode).attr('title', sText);
 }
