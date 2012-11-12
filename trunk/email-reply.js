@@ -43,7 +43,7 @@ function EmailReplyUpdateFileCount(sCaseLogAttCode)
 	{
 		sText += aEmailReplyFiles[sCaseLogAttCode][index].sFileName;
 		idx++;
-		if (idx < aEmailReplyFiles[sCaseLogAttCode].length)
+		if (idx < iCount)
 		{
 			sText += ', ';
 		}
