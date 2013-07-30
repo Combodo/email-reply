@@ -39,7 +39,10 @@ SetupWebPage::AddModule(
 			
 		),
 		'data.struct' => array(
-			// add your 'structure' definition XML files here,
+			'data.struct.ta-actions.xml',
+			'data.struct.ta-triggers.xml',
+			'data.struct.ta-links.xml',
+
 		),
 		'data.sample' => array(
 			// add your sample data XML files here,
