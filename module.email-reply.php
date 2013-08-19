@@ -26,6 +26,7 @@ SetupWebPage::AddModule(
 		// Setup
 		//
 		'dependencies' => array(
+			'itop-request-mgmt-itil/2.0.0||itop-request-mgmt/2.0.0', // Actually needed for the sample data
 		),
 		'mandatory' => false,
 		'visible' => true,
