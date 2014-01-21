@@ -1,5 +1,5 @@
 <?php
-// Copyright (C) 2012 Combodo SARL
+// Copyright (C) 2012-2014 Combodo SARL
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:TriggerOnLogUpdate/Attribute:target_log' => 'Code du journal',
 	'Class:TriggerOnLogUpdate/Attribute:target_log+' => 'Code de l\'attribut du journal concerné',
 
+	'UI-emry-enable' => 'Envoyer votre réponse par Email',
 	'UI-emry-noattachment' => 'Aucun attachement',
+	'UI-emry-caselog-prompt' => 'Entrez votre texte ici',
 ));
-?>

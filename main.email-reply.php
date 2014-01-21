@@ -1,5 +1,5 @@
 <?php
-// Copyright (C) 2012 Combodo SARL
+// Copyright (C) 2012-2014 Combodo SARL
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as published by
@@ -76,14 +76,44 @@ class EmailReplyPlugIn implements iApplicationUIExtension, iApplicationObjectExt
 			{
 				$sModuleUrl = utils::GetAbsoluteUrlModulesRoot().'email-reply/';
 				$oPage->add_linked_script($sModuleUrl.'email-reply.js');
+				$oPage->add_dict_entry('UI-emry-enable');
 				$oPage->add_dict_entry('UI-emry-noattachment');
+				$oPage->add_dict_entry('UI-emry-caselog-prompt');
 
-				$oPage->add_ready_script("$('#field_2_$sAttCode div.caselog_input_header').append('<input type=\"checkbox\" $sChecked id=\"emry_enabled_$sAttCode\" name=\"emry_enabled[$sAttCode]\" value=\"yes\">&nbsp;<img id=\"emry_event_bus_$sAttCode\" src=\"../images/mail.png\">&nbsp;<span id=\"emry_file_list_$sAttCode\" style=\"display: inline-block;\"><img src=\"{$sModuleUrl}/paper_clip.png\">&nbsp;(<span id=\"emry_file_count_$sAttCode\">0</span>)</span>');");
+				$oPage->add_linked_script(utils::GetAbsoluteUrlModulesRoot().'email-reply/jquery.placeholder.js');
 
-				$oPage->add_ready_script("$('#emry_event_bus_$sAttCode').bind('add_blob', function(event, sContainerClass, sContainerId, sBlobAttCode, sFileName) {EmailReplyAddFile('$sAttCode', sContainerClass, sContainerId, sBlobAttCode, sFileName);} );");
-				$oPage->add_ready_script("$('#attachment_plugin').bind('add_attachment', function(event, attId, sAttName) {EmailReplyAddFile('$sAttCode', 'Attachment', attId, 'contents', sAttName);} );");
-				$oPage->add_ready_script("$('#attachment_plugin').bind('remove_attachment', function(event, attId, sAttName) {EmailReplyRemoveFile('$sAttCode', 'Attachment', attId, 'contents');} );");
-				$oPage->add_ready_script("$('#emry_file_list_$sAttCode').attr('title', '".addslashes(Dict::S('UI-emry-noattachment'))."');");
+				$oPage->add_ready_script(
+<<<EOF
+$('#field_2_$sAttCode textarea').attr('placeholder', Dict.S('UI-emry-caselog-prompt'));
+$('#field_2_$sAttCode div.caselog_input_header').html('<label><input type=\"checkbox\" $sChecked id=\"emry_enabled_$sAttCode\" name=\"emry_enabled[$sAttCode]\" value=\"yes\">'+Dict.S('UI-emry-enable')+'</label><span id=\"emry_event_bus_$sAttCode\">&nbsp;</span><span id=\"emry_file_list_$sAttCode\" style=\"display: inline-block;\"><img src=\"{$sModuleUrl}paper_clip.png\">&nbsp;(<span id=\"emry_file_count_$sAttCode\">0</span>)</span>');
+
+// Enable the placeholders for IE9 - https://github.com/mathiasbynens/jquery-placeholder
+$('input, textarea').placeholder();
+
+$('#emry_event_bus_$sAttCode').bind('add_blob', function(event, sContainerClass, sContainerId, sBlobAttCode, sFileName) {
+	EmailReplyAddFile('$sAttCode', sContainerClass, sContainerId, sBlobAttCode, sFileName);
+} );
+$('#attachment_plugin').bind('add_attachment', function(event, attId, sAttName) {
+	EmailReplyAddFile('$sAttCode', 'Attachment', attId, 'contents', sAttName);
+} );
+$('#attachment_plugin').bind('remove_attachment', function(event, attId, sAttName) {
+	EmailReplyRemoveFile('$sAttCode', 'Attachment', attId, 'contents');
+} );
+$('#emry_file_list_$sAttCode').attr('title', Dict.S('UI-emry-noattachment'));
+EOF
+				);
+
+				// Align the checkbox with the label... cross-browser !
+				$oPage->add_style(
+<<<EOF
+input {
+    vertical-align: middle;
+}
+div.caselog_input_header img {
+    vertical-align: middle;
+}
+EOF
+				);
 			}
 		}
 	}
