@@ -49,7 +49,7 @@ class TriggerOnLogUpdate extends TriggerOnObject
 		MetaModel::Init_AddAttribute(new AttributeString("target_log", array("allowed_values"=>null, "sql"=>"target_log", "default_value"=>'public_log', "is_null_allowed"=>false, "depends_on"=>array())));
 
 		// Display lists
-		MetaModel::Init_SetZListItems('details', array('description', 'target_class', 'filter', 'target_log', 'action_list')); // Attributes to be displayed for the complete details
+		MetaModel::Init_SetZListItems('details', array('description', 'target_class', 'target_log', 'action_list')); // Attributes to be displayed for the complete details
 		MetaModel::Init_SetZListItems('list', array('finalclass', 'target_class', 'target_log', 'description')); // Attributes to be displayed for a list
 		// Search criteria
 	}
