@@ -72,7 +72,7 @@ class EmailReplyPlugIn implements iApplicationUIExtension, iApplicationObjectExt
 			$bEnabled = (bool) MetaModel::GetModuleSetting('email-reply', 'enabled_default', true);
 			$sChecked = $bEnabled ? 'checked' : '';
 			$oPage->add_ready_script("$('#form_2').append('<div id=\"emry_form_extension\"></div>');");
-			foreach ($this->ListTargetCaseLogs(get_class($oObject)) as $sAttCode => $aTriggers)
+			foreach ($this->ListTargetCaseLogs($oObject) as $sAttCode => $aTriggers)
 			{
 				$sModuleUrl = utils::GetAbsoluteUrlModulesRoot().'email-reply/';
 				$oPage->add_linked_script($sModuleUrl.'email-reply.js');
@@ -122,49 +122,11 @@ EOF
 	{
 	}
 
+	protected static $aHasFormSubmit = array();
+
 	public function OnFormSubmit($oObject, $sFormPrefix = '')
 	{
-		$aCaseLogs = $this->ListTargetCaseLogs(get_class($oObject));
-		if (count($aCaseLogs) > 0)
-		{
-			$aOperations = utils::ReadPostedParam('emry_enabled', array());
-			$aTriggerContext = $oObject->ToArgs('this');
-	
-			foreach ($aCaseLogs as $sAttCode => $aTriggers)
-			{
-				$sOperation = isset($aOperations[$sAttCode]) ? $aOperations[$sAttCode] : 'no';
-				$sLog = utils::ReadPostedParam('attr_'.$sAttCode, null, false, 'raw_data');
-				if (($sOperation == 'yes') && ($sLog != null))
-				{
-					$aFileDefs = utils::ReadParam('emry_files_'.$sAttCode, array(), false, 'raw_data');
-					if (count($aFileDefs) > 0)
-					{
-						$aFiles = array();
-						foreach($aFileDefs as $sFileDef)
-						{
-							// Forward attachments into the pipe (via the context of the trigger)
-							$aMatches = array();
-							if (preg_match('|^(.+)::(.+)/(.+)$|', $sFileDef, $aMatches))
-							{
-								$sContainerClass = $aMatches[1];
-								$sContainerId = $aMatches[2];
-								$sBlobAttCode = $aMatches[3];
-								$oContainer = MetaModel::GetObject($sContainerClass, $sContainerId, false);
-								$oFile = $oContainer->Get($sBlobAttCode);
-								$aFiles[] = $oFile;
-							}
-						}
-						$aTriggerContext['attachments'] = $aFiles;
-					}
-
-					$aTriggerContext['case-log-reply'] = $sLog;
-					foreach ($aTriggers as $oTrigger)
-					{
-						$oTrigger->DoActivate($aTriggerContext);
-					}
-				}
-			}
-		}
+		self::$aHasFormSubmit[get_class($oObject)][$oObject->GetKey()] = true;
 	}
 	
 	public function OnFormCancel($sTempId)
@@ -211,10 +173,12 @@ EOF
 
 	public function OnDBUpdate($oObject, $oChange = null)
 	{
+		$this->HandleTriggers($oObject);
 	}
 	
 	public function OnDBInsert($oObject, $oChange = null)
 	{
+		$this->HandleTriggers($oObject);
 	}
 	
 	public function OnDBDelete($oObject, $oChange = null)
@@ -233,8 +197,10 @@ EOF
 	 *  1) There is at least one trigger "on log update" for this class
 	 *  2) 	 	 	 	
 	 */	
-	protected function ListTargetCaseLogs($sClass)
+	protected function ListTargetCaseLogs($oObject)
 	{
+		$sClass = get_class($oObject);
+
 		static $aTargets = array();
 		if (!isset($aTargets[$sClass]))
 		{
@@ -279,6 +245,59 @@ EOF
 		}
 
 		return $aTargets[$sClass];
+	}
+
+	/**
+	 * Helper to execute the triggers, if any
+	 * This code cannot be executed while the form is being submitted because the object is not recorded
+	 * and it is sometimes required to have the object already recorded (eg: send a notification to the persons attached to the object)	 	 
+	 */	 
+	protected function HandleTriggers($oObject)
+	{
+		if (isset(self::$aHasFormSubmit[get_class($oObject)][$oObject->GetKey()]))
+		{
+			$aCaseLogs = $this->ListTargetCaseLogs($oObject);
+			if (count($aCaseLogs) > 0)
+			{
+				$aOperations = utils::ReadPostedParam('emry_enabled', array());
+				$aTriggerContext = $oObject->ToArgs('this');
+		
+				foreach ($aCaseLogs as $sAttCode => $aTriggers)
+				{
+					$sOperation = isset($aOperations[$sAttCode]) ? $aOperations[$sAttCode] : 'no';
+					$sLog = utils::ReadPostedParam('attr_'.$sAttCode, null, false, 'raw_data');
+					if (($sOperation == 'yes') && ($sLog != null))
+					{
+						$aFileDefs = utils::ReadParam('emry_files_'.$sAttCode, array(), false, 'raw_data');
+						if (count($aFileDefs) > 0)
+						{
+							$aFiles = array();
+							foreach($aFileDefs as $sFileDef)
+							{
+								// Forward attachments into the pipe (via the context of the trigger)
+								$aMatches = array();
+								if (preg_match('|^(.+)::(.+)/(.+)$|', $sFileDef, $aMatches))
+								{
+									$sContainerClass = $aMatches[1];
+									$sContainerId = $aMatches[2];
+									$sBlobAttCode = $aMatches[3];
+									$oContainer = MetaModel::GetObject($sContainerClass, $sContainerId, false);
+									$oFile = $oContainer->Get($sBlobAttCode);
+									$aFiles[] = $oFile;
+								}
+							}
+							$aTriggerContext['attachments'] = $aFiles;
+						}
+	
+						$aTriggerContext['case-log-reply'] = $sLog;
+						foreach ($aTriggers as $oTrigger)
+						{
+							$oTrigger->DoActivate($aTriggerContext);
+						}
+					}
+				}
+			}
+		}
 	}
 }
 ?>
