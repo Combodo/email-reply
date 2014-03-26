@@ -256,6 +256,9 @@ EOF
 	{
 		if (isset(self::$aHasFormSubmit[get_class($oObject)][$oObject->GetKey()]))
 		{
+			// Do it once and only once!
+			unset(self::$aHasFormSubmit[get_class($oObject)][$oObject->GetKey()]);
+
 			$aCaseLogs = $this->ListTargetCaseLogs($oObject);
 			if (count($aCaseLogs) > 0)
 			{
