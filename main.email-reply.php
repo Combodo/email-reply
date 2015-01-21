@@ -1,5 +1,5 @@
 <?php
-// Copyright (C) 2012-2014 Combodo SARL
+// Copyright (C) 2012-2015 Combodo SARL
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as published by
@@ -13,7 +13,6 @@
 //   You should have received a copy of the GNU General Public License
 //   along with this program; if not, write to the Free Software
 //   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
 
 /**
  * Module email-reply
@@ -79,30 +78,59 @@ class EmailReplyPlugIn implements iApplicationUIExtension, iApplicationObjectExt
 				$oPage->add_dict_entry('UI-emry-enable');
 				$oPage->add_dict_entry('UI-emry-noattachment');
 				$oPage->add_dict_entry('UI-emry-caselog-prompt');
-
+				$oPage->add_dict_entry('UI-emry-select-attachments');
+				$oPage->add_dict_entry('UI-emry-attachments-to-be-sent');
+				$oPage->add_dict_entry('UI:Button:Ok');
+				$oPage->add_dict_entry('UI:Button:Cancel');
+				
 				$oPage->add_linked_script(utils::GetAbsoluteUrlModulesRoot().'email-reply/jquery.placeholder.js');
 
+				$sObjClass = get_class($oObject);
+				$iObjKey = $oObject->GetKey();
+				$sJSMethod = addslashes("EmailReplySelectAttachments('$sAttCode')");
+				$sBtnLabel = htmlentities(Dict::S('UI-emry-select-attachments'), ENT_QUOTES, 'UTF-8');
+				$sBtnTooltip = htmlentities(Dict::S('UI-emry-select-attachments-tooltip'), ENT_QUOTES, 'UTF-8');
 				$oPage->add_ready_script(
 <<<EOF
 $('#field_2_$sAttCode textarea').attr('placeholder', Dict.S('UI-emry-caselog-prompt'));
-$('#field_2_$sAttCode div.caselog_input_header').html('<label><input type=\"checkbox\" $sChecked id=\"emry_enabled_$sAttCode\" name=\"emry_enabled[$sAttCode]\" value=\"yes\">'+Dict.S('UI-emry-enable')+'</label><span id=\"emry_event_bus_$sAttCode\">&nbsp;</span><span id=\"emry_file_list_$sAttCode\" style=\"display: inline-block;\"><img src=\"{$sModuleUrl}paper_clip.png\">&nbsp;(<span id=\"emry_file_count_$sAttCode\">0</span>)</span>');
+$('#field_2_$sAttCode div.caselog_input_header').html('<label><input type="checkbox" $sChecked id="emry_enabled_$sAttCode" name="emry_enabled[$sAttCode]" value="yes">'+Dict.S('UI-emry-enable')+'</label><span id="emry_event_bus_$sAttCode">&nbsp;</span><span id="emry_file_list_$sAttCode" style="display: inline-block;"><img src="{$sModuleUrl}paper_clip.png">&nbsp;(<span id="emry_file_count_$sAttCode">0</span>) <button type="button" id="emry_select_files_btn_$sAttCode" onclick="$sJSMethod">$sBtnLabel</button></span>');
 
 // Enable the placeholders for IE9 - https://github.com/mathiasbynens/jquery-placeholder
 $('input, textarea').placeholder();
 
 $('#emry_event_bus_$sAttCode').bind('add_blob', function(event, sContainerClass, sContainerId, sBlobAttCode, sFileName) {
-	EmailReplyAddFile('$sAttCode', sContainerClass, sContainerId, sBlobAttCode, sFileName);
+	EmailReplyAddFile('$sAttCode', sContainerClass, sContainerId, sBlobAttCode, sFileName, true);
 } );
 $('#attachment_plugin').bind('add_attachment', function(event, attId, sAttName) {
-	EmailReplyAddFile('$sAttCode', 'Attachment', attId, 'contents', sAttName);
+console.log(attId, sAttName);
+	EmailReplyAddFile('$sAttCode', 'Attachment', attId, 'contents', sAttName, true);
 } );
 $('#attachment_plugin').bind('remove_attachment', function(event, attId, sAttName) {
 	EmailReplyRemoveFile('$sAttCode', 'Attachment', attId, 'contents');
 } );
-$('#emry_file_list_$sAttCode').attr('title', Dict.S('UI-emry-noattachment'));
+$('#emry_enabled_$sAttCode').bind('click', function(event) {
+	EmailReplyUpdateFileCount('$sAttCode');
+} );
+//$('#emry_file_list_$sAttCode').attr('title', Dict.S('UI-emry-noattachment'));
+if($.isFunction($.fn.datepicker)) {
+	$('#emry_file_list_$sAttCode').tooltip({content: function() { return EmailReplyTooltipContent('$sAttCode'); } });
+	$('#emry_select_files_btn_$sAttCode').tooltip({show: { delay: 1000 }, content: '<span style="font-size:12px;">$sBtnTooltip</span>'});
+}
+
 EOF
 				);
-
+				
+				// Add all existing attachments to the list of potentially select-able attachments
+				$oSearch = DBObjectSearch::FromOQL("SELECT Attachment WHERE (item_class = :class AND item_id = :item_id)");
+				$oSet = new DBObjectSet($oSearch, array(), array('class' => $sObjClass, 'item_id' => $iObjKey));
+				while ($oAttachment = $oSet->Fetch())
+				{
+					$iAttId = $oAttachment->GetKey();
+					$oDoc = $oAttachment->Get('contents');
+					$sFileName = $oDoc->GetFileName();
+					$oPage->add_ready_script("EmailReplyAddFile('$sAttCode', 'Attachment', ".$oAttachment->GetKey().", 'contents', '".addslashes($sFileName)."', false);"); // false => not checked by default
+				}
+				
 				// Align the checkbox with the label... cross-browser !
 				$oPage->add_style(
 <<<EOF
