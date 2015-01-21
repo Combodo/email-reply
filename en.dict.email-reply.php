@@ -1,5 +1,5 @@
 <?php
-// Copyright (C) 2012-14 Combodo SARL
+// Copyright (C) 2012-2015 Combodo SARL
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as published by
@@ -36,6 +36,8 @@ Dict::Add('EN US', 'English', 'English', array(
 	'UI-emry-enable' => 'Send the reply by email',
 	'UI-emry-noattachment' => 'No attachment',
 	'UI-emry-caselog-prompt' => 'Type your text here',
+	'UI-emry-select-attachments' => 'Select Attachments...',
+	'UI-emry-attachments-to-be-sent' => 'The following attachments will be sent:',
+	'UI-emry-select-attachments-tooltip' => 'Click to select the attachments to be sent',
 ));
 
-?>

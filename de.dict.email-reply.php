@@ -1,5 +1,5 @@
 <?php
-// Copyright (C) 2010 Combodo SARL
+// Copyright (C) 2010-2015 Combodo SARL
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as published by
@@ -33,7 +33,11 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:TriggerOnLogUpdate/Attribute:target_log' => 'Attributname des Logs',
 	'Class:TriggerOnLogUpdate/Attribute:target_log+' => 'Bezeichnet das zu berücksictigende log (z.B. public_log)',
 
+	'UI-emry-enable' => 'Send the reply by email~~',
 	'UI-emry-noattachment' => 'Kein Attachment',
+	'UI-emry-caselog-prompt' => 'Type your text here~~',
+	'UI-emry-select-attachments' => 'Select Attachments...~~',
+	'UI-emry-attachments-to-be-sent' => 'The following attachments will be sent:~~',
+	'UI-emry-select-attachments-tooltip' => 'Click to select the attachments to be sent~~',
 ));
 
-?>

@@ -1,5 +1,5 @@
 <?php
-// Copyright (C) 2012-2014 Combodo SARL
+// Copyright (C) 2012-2015 Combodo SARL
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as published by
@@ -23,7 +23,6 @@
  * @license     http://www.opensource.org/licenses/gpl-3.0.html LGPL
  */
 
-
 //
 // Class: TriggerOnLogUpdate
 //
@@ -37,4 +36,7 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'UI-emry-enable' => 'Envoyer votre réponse par Email',
 	'UI-emry-noattachment' => 'Aucun attachement',
 	'UI-emry-caselog-prompt' => 'Entrez votre texte ici',
+	'UI-emry-select-attachments' => 'Pièces jointes...',
+	'UI-emry-attachments-to-be-sent' => 'Les pièces jointes suivantes seront envoyées:',
+	'UI-emry-select-attachments-tooltip' => 'Cliquez pour choisir les pièces jointes à envoyer',
 ));
