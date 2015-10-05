@@ -6,9 +6,12 @@ var aEmailReplyFiles = {};
 function EmailReplyAddFile(sCaseLogAttCode, sContainerClass, sContainerId, sBlobAttCode, sFileName, bChecked)
 {
 	var sFileDef = sContainerClass+'::'+sContainerId+'/'+sBlobAttCode;
-	var sId = 'emry_file_'+sCaseLogAttCode+'_'+sContainerClass+'_'+sContainerId+'_'+sBlobAttCode;
-	var sHiddenInput = '<input type="hidden" name="emry_files_'+sCaseLogAttCode+'[]" id="'+sId+'" value="'+sFileDef+'"/>';
-	$('#emry_form_extension').append(sHiddenInput);
+	if (bChecked)
+	{
+		var sId = 'emry_file_'+sCaseLogAttCode+'_'+sContainerClass+'_'+sContainerId+'_'+sBlobAttCode;
+		var sHiddenInput = '<input type="hidden" name="emry_files_'+sCaseLogAttCode+'[]" id="'+sId+'" value="'+sFileDef+'"/>';
+		$('#emry_form_extension').append(sHiddenInput);
+	}
 
 	if (!(sCaseLogAttCode in aEmailReplyFiles))
 	{
@@ -150,8 +153,8 @@ function EmailReplyOnSelectAttachments(sCaseLogAttCode)
 			var sBlobAttCode = aEmailReplyFiles[sCaseLogAttCode][sFileref].sBlobAttCode;
 			aEmailReplyFiles[sCaseLogAttCode][sFileref].checked = true;
 			
-			var sHiddenInput = '<input type="hidden" name="emry_files_'+sCaseLogAttCode+'[]" id="'+sId+'" value="'+sFileref+'"/>';
 			var sId = 'emry_file_'+sCaseLogAttCode+'_'+sContainerClass+'_'+sContainerId+'_'+sBlobAttCode;
+			var sHiddenInput = '<input type="hidden" name="emry_files_'+sCaseLogAttCode+'[]" id="'+sId+'" value="'+sFileref+'"/>';
 			$('#emry_form_extension').append(sHiddenInput);
 			$iCount++;
 		}
