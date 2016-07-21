@@ -74,7 +74,7 @@ try
 				$sPreview = $oDoc->IsPreviewAvailable() ? 'true' : 'false';
 				$sChecked = ($aData['checked'] == 'true') ? ' checked' : '';
 				$sFileDef = $sObjClass.'::'.$iObjId.'/'.$aData['sBlobAttCode'];
-				$sDownloadLink = htmlentities(utils::GetAbsoluteUrlAppRoot().'pages/ajax.render.php?operation=download_document&class='.$sObjClass.'&id='.$iObjId.'&field='.$aData['sBlobAttCode'], ENT_QUOTES, 'UTF-8');
+				$sDownloadLink = htmlentities(utils::GetAbsoluteUrlAppRoot().'pages/ajax.render.php?operation=download_document&class='.$sObjClass.'&field='.$aData['sBlobAttCode'].'&id='.$iObjId, ENT_QUOTES, 'UTF-8');
 				$oPage->add('<div style="vertical-align:middle;"><input type="checkbox" data-fileref="'.$sFileDef.'" id="emry-pick-'.$sObjClass.'-'.$iObjId.'"'.$sChecked.'><label class="emry-attachment" data-href="'.$sDownloadLink.'" data-preview="'.$sPreview.'" for="emry-pick-'.$sObjClass.'-'.$iObjId.'">&nbsp;<img style="vertical-align:middle;" src="'.$sIcon.'" />&nbsp;'.htmlentities($sFileName, ENT_QUOTES, 'UTF-8').'</label></div>');
 				$sPreviewNotAvailable = addslashes(Dict::S('Attachments:PreviewNotAvailable'));
 				$iMaxWidth = MetaModel::GetModuleSetting('itop-attachments', 'preview_max_width', 290);

@@ -101,9 +101,8 @@ $('input, textarea').placeholder();
 $('#emry_event_bus_$sAttCode').bind('add_blob', function(event, sContainerClass, sContainerId, sBlobAttCode, sFileName) {
 	EmailReplyAddFile('$sAttCode', sContainerClass, sContainerId, sBlobAttCode, sFileName, true);
 } );
-$('#attachment_plugin').bind('add_attachment', function(event, attId, sAttName) {
-//console.log(attId, sAttName);
-	EmailReplyAddFile('$sAttCode', 'Attachment', attId, 'contents', sAttName, true);
+$('#attachment_plugin').bind('add_attachment', function(event, attId, sAttName, bInlineImage) {
+	EmailReplyAddFile('$sAttCode', 'Attachment', attId, 'contents', sAttName, (bInlineImage == false)); // bInlineImage = true, false (or undefined for backward compatibility)
 } );
 $('#attachment_plugin').bind('remove_attachment', function(event, attId, sAttName) {
 	EmailReplyRemoveFile('$sAttCode', 'Attachment', attId, 'contents');

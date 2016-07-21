@@ -120,7 +120,7 @@ function EmailReplyTooltipContent(sCaseLogAttCode)
 
 function EmailReplySelectAttachments(sCaseLogAttCode)
 {
-	var oDlg = $('<div id="emry-dlg"><div id="emry-dlg-content"><img src="../images/indicator.gif"</div></div>');
+	var oDlg = $('<div id="emry-dlg"><div id="emry-dlg-content" style="max-height:25em;"><img src="../images/indicator.gif"</div></div>');
 	$('body').append(oDlg);
 	oDlg.dialog({
 		modal:true,
