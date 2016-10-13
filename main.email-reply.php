@@ -83,8 +83,6 @@ class EmailReplyPlugIn implements iApplicationUIExtension, iApplicationObjectExt
 				$oPage->add_dict_entry('UI:Button:Ok');
 				$oPage->add_dict_entry('UI:Button:Cancel');
 				
-				$oPage->add_linked_script(utils::GetAbsoluteUrlModulesRoot().'email-reply/jquery.placeholder.js');
-
 				$sObjClass = get_class($oObject);
 				$iObjKey = $oObject->GetKey();
 				$sJSMethod = addslashes("EmailReplySelectAttachments('$sAttCode')");
@@ -94,9 +92,6 @@ class EmailReplyPlugIn implements iApplicationUIExtension, iApplicationObjectExt
 <<<EOF
 $('#field_2_$sAttCode textarea').attr('placeholder', Dict.S('UI-emry-caselog-prompt'));
 $('#field_2_$sAttCode div.caselog_input_header').html('<label><input type="checkbox" $sChecked id="emry_enabled_$sAttCode" name="emry_enabled[$sAttCode]" value="yes">'+Dict.S('UI-emry-enable')+'</label><span id="emry_event_bus_$sAttCode">&nbsp;</span><span id="emry_file_list_$sAttCode" style="display: inline-block;"><img src="{$sModuleUrl}paper_clip.png">&nbsp;(<span id="emry_file_count_$sAttCode">0</span>) <button type="button" id="emry_select_files_btn_$sAttCode" onclick="$sJSMethod">$sBtnLabel</button></span>');
-
-// Enable the placeholders for IE9 - https://github.com/mathiasbynens/jquery-placeholder
-$('input, textarea').placeholder();
 
 $('#emry_event_bus_$sAttCode').bind('add_blob', function(event, sContainerClass, sContainerId, sBlobAttCode, sFileName) {
 	EmailReplyAddFile('$sAttCode', sContainerClass, sContainerId, sBlobAttCode, sFileName, true);
