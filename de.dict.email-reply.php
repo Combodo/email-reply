@@ -33,11 +33,11 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:TriggerOnLogUpdate/Attribute:target_log' => 'Attributname des Logs',
 	'Class:TriggerOnLogUpdate/Attribute:target_log+' => 'Bezeichnet das zu berücksictigende log (z.B. public_log)',
 
-	'UI-emry-enable' => 'Send the reply by email~~',
+	'UI-emry-enable' => 'Sende die antwort per Mail',
 	'UI-emry-noattachment' => 'Kein Attachment',
-	'UI-emry-caselog-prompt' => 'Type your text here~~',
-	'UI-emry-select-attachments' => 'Select Attachments...~~',
-	'UI-emry-attachments-to-be-sent' => 'The following attachments will be sent:~~',
-	'UI-emry-select-attachments-tooltip' => 'Click to select the attachments to be sent~~',
+	'UI-emry-caselog-prompt' => 'Geben Sie hier Ihren Text ein',
+	'UI-emry-select-attachments' => 'Attachments auswählen...',
+	'UI-emry-attachments-to-be-sent' => 'Die folgenden Attachments werden versandt:',
+	'UI-emry-select-attachments-tooltip' => 'Klicken Sie, um die zu sendenden Attachments auszuwählen.',
 ));
 
