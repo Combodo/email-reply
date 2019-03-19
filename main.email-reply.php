@@ -241,8 +241,8 @@ EOF
 
 			if ($bHasCaseLog)
 			{
-				$sClassList = implode("', '", MetaModel::EnumParentClasses($sClass, ENUM_PARENT_CLASSES_ALL));
-				$oTriggerSet = new CMDBObjectSet(DBObjectSearch::FromOQL("SELECT TriggerOnLogUpdate AS T WHERE T.target_class IN ('$sClassList')"));
+				$aParams = array('class_list' => MetaModel::EnumParentClasses($sClass, ENUM_PARENT_CLASSES_ALL));
+				$oTriggerSet = new CMDBObjectSet(DBObjectSearch::FromOQL("SELECT TriggerOnLogUpdate AS T WHERE T.target_class IN (:class_list)"), array(), $aParams);
 				while ($oTrigger = $oTriggerSet->Fetch())
 				{
 					$bHasActiveEmailAction = false;
