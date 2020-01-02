@@ -32,7 +32,7 @@ class TriggerOnLogUpdate extends TriggerOnObject
 	{
 		$aParams = array
 		(
-			"category" => "core/cmdb,application",
+			"category" => "grant_by_profile,core/cmdb,application",
 			"key_type" => "autoincrement",
 			"name_attcode" => "description",
 			"state_attcode" => "",
