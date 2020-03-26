@@ -57,8 +57,8 @@ class TriggerOnLogUpdate extends TriggerOnObject
 
 // Add menus creation here
 
-// Declare a class that implements iBackgroundProcess (will be called by the CRON)
-// Extend the class AsyncTask to create a queue of asynchronous tasks (process by the CRON)
+// Declare a class that implements iBackgroundProcess (will be called by the cron)
+// Extend the class AsyncTask to create a queue of asynchronous tasks (process by the cron)
 // Declare a class that implements iApplicationUIExtension (to tune object display and edition form)
 // Declare a class that implements iApplicationObjectExtension (to tune object read/write rules)
 
