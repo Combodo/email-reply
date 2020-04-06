@@ -30,7 +30,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:TriggerOnLogUpdate/Attribute:target_log' => 'Attributname des Logs',
 	'Class:TriggerOnLogUpdate/Attribute:target_log+' => 'Bezeichnet das zu berücksictigende log (z.B. public_log)',
 
-	'UI-emry-enable' => 'Sende die antwort per Mail',
+	'UI-emry-enable' => 'Sende die Antwort per Mail',
 	'UI-emry-noattachment' => 'Kein Attachment',
 	'UI-emry-caselog-prompt' => 'Geben Sie hier Ihren Text ein',
 	'UI-emry-select-attachments' => 'Attachments auswählen...',

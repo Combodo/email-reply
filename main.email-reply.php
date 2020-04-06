@@ -32,7 +32,7 @@ class TriggerOnLogUpdate extends TriggerOnObject
 	{
 		$aParams = array
 		(
-			"category" => "core/cmdb,application",
+			"category" => "grant_by_profile,core/cmdb,application",
 			"key_type" => "autoincrement",
 			"name_attcode" => "description",
 			"state_attcode" => "",
@@ -57,8 +57,8 @@ class TriggerOnLogUpdate extends TriggerOnObject
 
 // Add menus creation here
 
-// Declare a class that implements iBackgroundProcess (will be called by the CRON)
-// Extend the class AsyncTask to create a queue of asynchronous tasks (process by the CRON)
+// Declare a class that implements iBackgroundProcess (will be called by the cron)
+// Extend the class AsyncTask to create a queue of asynchronous tasks (process by the cron)
 // Declare a class that implements iApplicationUIExtension (to tune object display and edition form)
 // Declare a class that implements iApplicationObjectExtension (to tune object read/write rules)
 
