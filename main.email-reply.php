@@ -1,5 +1,5 @@
 <?php
-// Copyright (C) 2012-2015 Combodo SARL
+// Copyright (C) 2012-2020 Combodo SARL
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as published by
@@ -89,7 +89,7 @@ class EmailReplyPlugIn implements iApplicationUIExtension, iApplicationObjectExt
 				$sBtnLabel = htmlentities(Dict::S('UI-emry-select-attachments'), ENT_QUOTES, 'UTF-8');
 				$sBtnTooltip = htmlentities(Dict::S('UI-emry-select-attachments-tooltip'), ENT_QUOTES, 'UTF-8');
 				$oPage->add_ready_script(
-<<<EOF
+<<<JS
 $('#field_2_$sAttCode textarea').attr('placeholder', Dict.S('UI-emry-caselog-prompt'));
 $('#field_2_$sAttCode div.caselog_input_header').html('<label><input type="checkbox" $sChecked id="emry_enabled_$sAttCode" name="emry_enabled[$sAttCode]" value="yes">'+Dict.S('UI-emry-enable')+'</label><span id="emry_event_bus_$sAttCode">&nbsp;</span><span id="emry_file_list_$sAttCode" style="display: inline-block;"><img src="{$sModuleUrl}paper_clip.png">&nbsp;(<span id="emry_file_count_$sAttCode">0</span>) <button type="button" id="emry_select_files_btn_$sAttCode" onclick="$sJSMethod">$sBtnLabel</button></span>');
 
@@ -105,13 +105,11 @@ $('#attachment_plugin').bind('remove_attachment', function(event, attId, sAttNam
 $('#emry_enabled_$sAttCode').bind('click', function(event) {
 	EmailReplyUpdateFileCount('$sAttCode');
 } );
-//$('#emry_file_list_$sAttCode').attr('title', Dict.S('UI-emry-noattachment'));
 if($.isFunction($.fn.datepicker)) {
 	$('#emry_file_list_$sAttCode').tooltip({content: function() { return EmailReplyTooltipContent('$sAttCode'); } });
 	$('#emry_select_files_btn_$sAttCode').tooltip({show: { delay: 1000 }, content: '<span style="font-size:12px;">$sBtnTooltip</span>'});
 }
-
-EOF
+JS
 				);
 				
 				// Add all existing attachments to the list of potentially select-able attachments
@@ -127,14 +125,14 @@ EOF
 				
 				// Align the checkbox with the label... cross-browser !
 				$oPage->add_style(
-<<<EOF
+<<<CSS
 input {
     vertical-align: middle;
 }
 div.caselog_input_header img {
     vertical-align: middle;
 }
-EOF
+CSS
 				);
 			}
 		}
@@ -329,4 +327,3 @@ EOF
 		}
 	}
 }
-?>
