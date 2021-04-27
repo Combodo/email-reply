@@ -46,16 +46,16 @@ function EmailReplyUpdateFileCount(sCaseLogAttCode)
 {
 	var iCount  = aEmailReplyFiles[sCaseLogAttCode+'_file_count'];
 	var bEmailDisabled = ($('#emry_enabled_'+sCaseLogAttCode+':checked').length == 0);
+	var sText = '';
 
 	if (bEmailDisabled)
 	{
 		$('#emry_file_count_'+sCaseLogAttCode).html('0');
-		$('#emry_file_list_'+sCaseLogAttCode).attr('title', Dict.S('UI-emry-noattachment'));
+		sText = Dict.S('UI-emry-noattachment');
 	}
 	else
 	{
 		$('#emry_file_count_'+sCaseLogAttCode).html(iCount);
-		var sText = '';
 		var idx = 0;
 		var iNbAttachments = 0;
 		for(var index in aEmailReplyFiles[sCaseLogAttCode])
@@ -76,7 +76,15 @@ function EmailReplyUpdateFileCount(sCaseLogAttCode)
 		{
 			sText = Dict.S('UI-emry-noattachment');
 		}
-		$('#emry_file_list_'+sCaseLogAttCode).attr('title', sText);		
+
+
+	}
+	if(IsEmailReplyLegacy === true){
+		$('#emry_file_list_'+sCaseLogAttCode).attr('title', sText);
+	}
+	else{
+		$('#emry_file_list_'+sCaseLogAttCode).attr('data-tooltip-content', sText);
+		CombodoTooltip.InitTooltipFromMarkup($('#emry_file_list_'+sCaseLogAttCode), true);
 	}
 	
 	if ((iNbAttachments == 0) || bEmailDisabled)
