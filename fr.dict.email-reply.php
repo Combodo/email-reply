@@ -31,11 +31,11 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:TriggerOnLogUpdate/Attribute:target_log+' => 'Code de l\'attribut du journal concerné',
 
 	'UI-emry-enable' => 'Envoyer votre réponse par Email',
-	'UI-emry-enable:Short' => 'Notify~~',
+	'UI-emry-enable:Short' => 'Notifier',
 	'UI-emry-noattachment' => 'Aucun attachement',
 	'UI-emry-caselog-prompt' => 'Entrez votre texte ici',
 	'UI-emry-select-attachments' => 'Pièces jointes...',
-	'UI-emry-select-attachments:Short' => 'Attachments~~',
+	'UI-emry-select-attachments:Short' => 'Pièces jointes',
 	'UI-emry-attachments-to-be-sent' => 'Les pièces jointes suivantes seront envoyées:',
 	'UI-emry-select-attachments-tooltip' => 'Cliquez pour choisir les pièces jointes à envoyer',
 ));
