@@ -104,12 +104,13 @@ class EmailReplyPlugIn implements iApplicationUIExtension, iApplicationObjectExt
 				$sObjClass = get_class($oObject);
 				$iObjKey = $oObject->GetKey();
 				$sJSMethod = addslashes("EmailReplySelectAttachments('$sAttCode')");
+				$sCheckboxLabel = htmlentities(Dict::S('UI-emry-enable'), ENT_QUOTES, 'UTF-8');
 				$sBtnLabel = htmlentities(Dict::S('UI-emry-select-attachments'), ENT_QUOTES, 'UTF-8');
 				$sBtnTooltip = htmlentities(Dict::S('UI-emry-select-attachments-tooltip'), ENT_QUOTES, 'UTF-8');
 				if($bIsLegacy){
 					$oPage->add_ready_script(
 						<<<JS
-$('#field_2_$sAttCode div.caselog_input_header').html('<label><input type="checkbox" $sChecked id="emry_enabled_$sAttCode" name="emry_enabled[$sAttCode]" value="yes">'+Dict.S('UI-emry-enable')+'</label><span id="emry_event_bus_$sAttCode">&nbsp;</span><span id="emry_file_list_$sAttCode" style="display: inline-block;"><img src="{$sModuleUrl}paper_clip.png">&nbsp;(<span id="emry_file_count_$sAttCode">0</span>) <button type="button" id="emry_select_files_btn_$sAttCode" onclick="$sJSMethod">$sBtnLabel</button></span>');
+$('#field_2_$sAttCode div.caselog_input_header').html('<label><input type="checkbox" $sChecked id="emry_enabled_$sAttCode" name="emry_enabled[$sAttCode]" value="yes">$sCheckboxLabel</label><span id="emry_event_bus_$sAttCode">&nbsp;</span><span id="emry_file_list_$sAttCode" style="display: inline-block;"><img src="{$sModuleUrl}paper_clip.png">&nbsp;(<span id="emry_file_count_$sAttCode">0</span>) <button type="button" id="emry_select_files_btn_$sAttCode" onclick="$sJSMethod">$sBtnLabel</button></span>');
 if($.isFunction($.fn.datepicker)) {
 	$('#emry_file_list_$sAttCode').tooltip({content: function() { return EmailReplyTooltipContent('$sAttCode'); } });
 	$('#emry_select_files_btn_$sAttCode').tooltip({show: { delay: 1000 }, content: '<span style="font-size:12px;">$sBtnTooltip</span>'});
@@ -120,12 +121,15 @@ JS
 				}
 				else{
 					$oPage->add_saas('env-'.utils::GetCurrentEnvironment().'/email-reply/css/style.scss');
-					$sBtnLabel = 'Notify';
+					$sCheckboxTooltip = $sCheckboxLabel;
+					$sCheckboxLabel = htmlentities(Dict::S('UI-emry-enable:Short'), ENT_QUOTES, 'UTF-8');
+					$sBtnLabel = htmlentities(Dict::S('UI-emry-select-attachments:Short'), ENT_QUOTES, 'UTF-8');;
 					$oPage->add_ready_script(
 						<<<JS
-$('[data-role=\"ibo-caselog-entry-form\"][data-attribute-code=\"$sAttCode\"] [data-role=\"ibo-caselog-entry-form--action-buttons--extra-actions\"]').html('<label><div class="emry-notify-input--wrapper ibo-button ibo-is-alternative ibo-is-neutral"><input type="checkbox" $sChecked id="emry_enabled_toggler_$sAttCode" name="emry_enabled[$sAttCode]" value="yes" onChange="$(\'#emry_enabled_$sAttCode\').val($(this).val())"/>Notify</div></label></div><span id="emry_event_bus_$sAttCode"></span><span id="emry_file_list_$sAttCode" style="display: inline-block;"><button type="button" class="emry-button ibo-button ibo-is-regular ibo-is-neutral" id="emry_select_files_btn_$sAttCode" onclick="$sJSMethod"><span class="ibo-button--icon fas fa-paperclip"></span><span class=\"ibo-button--label\">Attachments(<span id="emry_file_count_$sAttCode">0</span>)</span></button></span>');
+$('[data-role=\"ibo-caselog-entry-form\"][data-attribute-code=\"$sAttCode\"] [data-role=\"ibo-caselog-entry-form--action-buttons--extra-actions\"]').html('<label><div class="emry-notify-input--wrapper ibo-button ibo-is-alternative ibo-is-neutral" data-tooltip-content="$sCheckboxTooltip"><input type="checkbox" $sChecked id="emry_enabled_toggler_$sAttCode" name="emry_enabled[$sAttCode]" value="yes" onChange="$(\'#emry_enabled_$sAttCode\').val($(this).val())"/>$sCheckboxLabel</div></label></div><span id="emry_event_bus_$sAttCode"></span><span id="emry_file_list_$sAttCode" style="display: inline-block;"><button type="button" class="emry-button ibo-button ibo-is-regular ibo-is-neutral" id="emry_select_files_btn_$sAttCode" onclick="$sJSMethod"><span class="ibo-button--icon fas fa-paperclip"></span><span class=\"ibo-button--label\">$sBtnLabel (<span id="emry_file_count_$sAttCode">0</span>)</span></button></span>');
 $('#emry_form_extension').append('<input type="checkbox" $sChecked id="emry_enabled_$sAttCode" name="emry_enabled[$sAttCode]" value="yes" style="display:none">');
 $('#emry_file_list_$sAttCode').attr('data-tooltip-content', '$sBtnTooltip');
+CombodoTooltip.InitTooltipFromMarkup($('.emry-notify-input--wrapper'), true);
 CombodoTooltip.InitTooltipFromMarkup($('#emry_file_list_$sAttCode'), true);
 JS
 					);

@@ -17,9 +17,11 @@ Dict::Add('RU RU', 'Russian', 'Русский', array(
 	'Class:TriggerOnLogUpdate/Attribute:target_log+' => 'Укажите код атрибута журнала для отслеживания, например, public_log',
 
 	'UI-emry-enable' => 'Отправить ответ по email',
+	'UI-emry-enable:Short' => 'Notify~~',
 	'UI-emry-noattachment' => 'Вложений нет',
 	'UI-emry-caselog-prompt' => 'Введите сообщение здесь',
 	'UI-emry-select-attachments' => 'Выбрать вложения...',
+	'UI-emry-select-attachments:Short' => 'Attachments~~',
 	'UI-emry-attachments-to-be-sent' => 'Будут отправлены следующие вложения:',
 	'UI-emry-select-attachments-tooltip' => 'Выбрать вложения для отправки',
 ));

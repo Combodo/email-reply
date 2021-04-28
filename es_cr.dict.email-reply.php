@@ -31,9 +31,11 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
 	'Class:TriggerOnLogUpdate/Attribute:target_log+' => 'Identifica que bitácora será considerada',
 
 	'UI-emry-enable' => 'Enviar respuesta por correo-e',
+	'UI-emry-enable:Short' => 'Notify~~',
 	'UI-emry-noattachment' => 'Sin Anexos',
 	'UI-emry-caselog-prompt' => 'Escriba su texto aquí',
 	'UI-emry-select-attachments' => 'Seleccione Anexo...',
+	'UI-emry-select-attachments:Short' => 'Attachments~~',
 	'UI-emry-attachments-to-be-sent' => 'Los siguientes anexos serán enviados:',
 	'UI-emry-select-attachments-tooltip' => 'Click para seleccionar los anexos a enviar',
 ));

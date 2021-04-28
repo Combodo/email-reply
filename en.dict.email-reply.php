@@ -32,9 +32,11 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:TriggerOnLogUpdate/Attribute:target_log+' => 'Identifies which log will be considered',
 
 	'UI-emry-enable' => 'Send the reply by email',
+	'UI-emry-enable:Short' => 'Notify',
 	'UI-emry-noattachment' => 'No attachment',
 	'UI-emry-caselog-prompt' => 'Type your text here',
 	'UI-emry-select-attachments' => 'Select Attachments...',
+	'UI-emry-select-attachments:Short' => 'Attachments',
 	'UI-emry-attachments-to-be-sent' => 'The following attachments will be sent:',
 	'UI-emry-select-attachments-tooltip' => 'Click to select the attachments to be sent',
 ));
