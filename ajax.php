@@ -73,15 +73,29 @@ try
 				$sPreview = $oDoc->IsPreviewAvailable() ? 'true' : 'false';
 				$sChecked = ($aData['checked'] == 'true') ? ' checked' : '';
 				$sFileDef = $sObjClass.'::'.$iObjId.'/'.$aData['sBlobAttCode'];
-				$sDownloadLink = htmlentities(utils::GetAbsoluteUrlAppRoot().'pages/ajax.render.php?operation=download_document&class='.$sObjClass.'&field='.$aData['sBlobAttCode'].'&id='.$iObjId, ENT_QUOTES, 'UTF-8');
-				$oPage->add('<div style="vertical-align:middle;"><input type="checkbox" data-fileref="'.$sFileDef.'" id="emry-pick-'.$sObjClass.'-'.$iObjId.'"'.$sChecked.'><label class="emry-attachment" data-href="'.$sDownloadLink.'" data-preview="'.$sPreview.'" for="emry-pick-'.$sObjClass.'-'.$iObjId.'">&nbsp;<img style="vertical-align:middle;" src="'.$sIcon.'" />&nbsp;'.htmlentities($sFileName, ENT_QUOTES, 'UTF-8').'</label></div>');
-				$sPreviewNotAvailable = addslashes(Dict::S('Attachments:PreviewNotAvailable'));
+				$sId = "emry-pick-$sObjClass-$iObjId";
+				$sDownloadLink = utils::GetAbsoluteUrlAppRoot().'pages/ajax.document.php?operation=download_document&class='.$sObjClass.'&field='.$aData['sBlobAttCode'].'&id='.$iObjId;
 				$iMaxWidth = MetaModel::GetModuleSetting('itop-attachments', 'preview_max_width', 290);
-				$oPage->add_ready_script(
-					<<<EOF
-$(document).tooltip({ items: '.emry-attachment',  position: { my: 'left top', at: 'right top', using: function( position, feedback ) { $( this ).css( position ); }}, content: function() { if ($(this).attr('data-preview') == 'true') { return('<img style=\"max-width:{$iMaxWidth}px\" src=\"'+$(this).attr('data-href')+'\"></img>');} else { return '$sPreviewNotAvailable'; }}});
-EOF
-				);
+				$sPreviewNotAvailable = Dict::S('Attachments:PreviewNotAvailable');
+				$sPreviewData = $sPreviewNotAvailable;
+				if ($sPreview === 'true'){
+					$sPreviewData = utils::HtmlEntities('<img src="'.$sDownloadLink.'" style="max-width: '.$iMaxWidth.'"/>');
+				}
+				$oPage->add('<div style="vertical-align:middle;"><input type="checkbox" data-fileref="'.$sFileDef.'" id="'.$sId.'" '.$sChecked.'><label class="emry-attachment" data-preview="'.$sPreview.'" for="'.$sId.'" data-tooltip-html-enabled="true" data-tooltip-content="'.$sPreviewData.'">&nbsp;<img style="vertical-align:middle;" src="'.$sIcon.'" />&nbsp;'.htmlentities($sFileName, ENT_QUOTES, 'UTF-8').'</label></div>');
+				if(EmailReplyPlugIn::UseLegacy()) {
+					$oPage->add_ready_script(
+						<<<JS
+	$(document).tooltip({ items: '.emry-attachment',  position: { my: 'left top', at: 'right top', using: function( position, feedback ) { $( this ).css( position ); }}, content: function() { return($(this).attr('data-tooltip-content'));}});
+JS
+					);
+				}
+				else {
+					$oPage->add_ready_script(
+						<<<JS
+CombodoTooltip.InitTooltipFromMarkup($('[for="$sId"]'), true);
+JS
+					);
+				}
 			}				
 		}		
 	}
