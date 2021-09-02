@@ -80,16 +80,20 @@ class EmailReplyPlugIn implements iApplicationUIExtension, iApplicationObjectExt
 	
 	public function OnDisplayProperties($oObject, WebPage $oPage, $bEditMode = false)
 	{
-		if ($bEditMode && !$oObject->IsNew())
+		$bIsLegacy = static::UseLegacy();
+		$sIsLegacy = $bIsLegacy === true ? 'true' : 'false';
+
+		if (($bEditMode || !$bIsLegacy) && !$oObject->IsNew())
 		{
 			$bEnabled = (bool) MetaModel::GetModuleSetting('email-reply', 'enabled_default', true);
 			$sChecked = $bEnabled ? 'checked' : '';
-			$oPage->add_ready_script("$('#form_2').append('<div id=\"emry_form_extension\"></div>');");
+
+			if($bEditMode){
+				$oPage->add_ready_script("$('#form_2').append('<div id=\"emry_form_extension\"></div>');");
+			}
 			foreach ($this->ListTargetCaseLogs($oObject) as $sAttCode => $aTriggers)
 			{
 				$sModuleUrl = utils::GetAbsoluteUrlModulesRoot().'email-reply/';
-				$bIsLegacy = static::UseLegacy();
-				$sIsLegacy = $bIsLegacy === true ? 'true' : 'false';
 				$oPage->add_ready_script("IsEmailReplyLegacy = $sIsLegacy;");
 				$oPage->add_linked_script($sModuleUrl.'email-reply.js');
 				
@@ -120,13 +124,16 @@ JS
 
 				}
 				else{
+					if(!$bEditMode){
+						$oPage->add_ready_script("$('[data-role=\"ibo-caselog-entry-form\"][data-attribute-code=\"$sAttCode\"] [data-role=\"ibo-caselog-entry-form--extra-inputs\"]').append('<div id=\"emry_form_extension\"></div>');");
+					}
 					$oPage->add_saas('env-'.utils::GetCurrentEnvironment().'/email-reply/css/style.scss');
 					$sCheckboxTooltip = $sCheckboxLabel;
 					$sCheckboxLabel = htmlentities(Dict::S('UI-emry-enable:Short'), ENT_QUOTES, 'UTF-8');
 					$sBtnLabel = htmlentities(Dict::S('UI-emry-select-attachments:Short'), ENT_QUOTES, 'UTF-8');;
 					$oPage->add_ready_script(
 						<<<JS
-$('[data-role=\"ibo-caselog-entry-form\"][data-attribute-code=\"$sAttCode\"] [data-role=\"ibo-caselog-entry-form--action-buttons--extra-actions\"]').html('<label><div class="emry-notify-input--wrapper ibo-button ibo-is-alternative ibo-is-neutral" data-tooltip-content="$sCheckboxTooltip"><input type="checkbox" $sChecked id="emry_enabled_toggler_$sAttCode" name="emry_enabled[$sAttCode]" onChange="$(\'#emry_enabled_$sAttCode\').val(this.checked === true ? \'yes\' : \'no\')"/>$sCheckboxLabel</div></label></div><span id="emry_event_bus_$sAttCode"></span><span id="emry_file_list_$sAttCode" style="display: inline-block;"><button type="button" class="emry-button ibo-button ibo-is-regular ibo-is-neutral" id="emry_select_files_btn_$sAttCode" onclick="$sJSMethod"><span class="ibo-button--icon fas fa-paperclip"></span><span class=\"ibo-button--label\">$sBtnLabel (<span id="emry_file_count_$sAttCode">0</span>)</span></button></span>');
+$('[data-role=\"ibo-caselog-entry-form\"][data-attribute-code=\"$sAttCode\"] [data-role=\"ibo-caselog-entry-form--action-buttons--extra-actions\"]').append('<label><div class="emry-notify-input--wrapper ibo-button ibo-is-alternative ibo-is-neutral" data-tooltip-content="$sCheckboxTooltip"><input type="checkbox" $sChecked id="emry_enabled_toggler_$sAttCode" onChange="$(\'#emry_enabled_$sAttCode\').val(this.checked === true ? \'yes\' : \'no\')"/>$sCheckboxLabel</div></label></div><span id="emry_event_bus_$sAttCode"></span><span id="emry_file_list_$sAttCode" style="display: inline-block;"><button type="button" class="emry-button ibo-button ibo-is-regular ibo-is-neutral" id="emry_select_files_btn_$sAttCode" onclick="$sJSMethod"><span class="ibo-button--icon fas fa-paperclip"></span><span class=\"ibo-button--label\">$sBtnLabel (<span id="emry_file_count_$sAttCode">0</span>)</span></button></span>');
 $('#emry_form_extension').append('<input type="checkbox" $sChecked id="emry_enabled_$sAttCode" name="emry_enabled[$sAttCode]" value="yes" style="display:none">');
 $('#emry_file_list_$sAttCode').attr('data-tooltip-content', '$sBtnTooltip');
 CombodoTooltip.InitTooltipFromMarkup($('.emry-notify-input--wrapper'), true);
@@ -328,8 +335,16 @@ CSS
 				foreach ($aCaseLogs as $sAttCode => $aTriggers)
 				{
 					$sOperation = isset($aOperations[$sAttCode]) ? $aOperations[$sAttCode] : 'no';
+					// Retrieve log data in edit mode
 					$sLog = utils::ReadPostedParam('attr_'.$sAttCode, null, 'raw_data');
-					if (($sOperation == 'yes') && ($sLog != null))
+					// If its null, tries to fallback on quickedit
+					if($sLog === null){
+						$aQuickEditEntries = utils::ReadPostedParam('entries', [], utils::ENUM_SANITIZATION_FILTER_RAW_DATA);
+						if(isset($aQuickEditEntries[$sAttCode])){
+							$sLog = $aQuickEditEntries[$sAttCode];
+						}
+					}
+					if (($sOperation === 'yes') && $sLog !== null)
 					{
 						$aFileDefs = utils::ReadParam('emry_files_'.$sAttCode, array(), false, 'raw_data');
 						unset($aTriggerContext['attachments']); 
