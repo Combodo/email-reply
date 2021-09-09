@@ -338,7 +338,7 @@ CSS
 					// Retrieve log data in edit mode
 					$sLog = utils::ReadPostedParam('attr_'.$sAttCode, null, 'raw_data');
 					// If its null, tries to fallback on quickedit
-					if($sLog === null){
+					if($sLog === null && static::UseLegacy()){
 						$aQuickEditEntries = utils::ReadPostedParam('entries', [], utils::ENUM_SANITIZATION_FILTER_RAW_DATA);
 						if(isset($aQuickEditEntries[$sAttCode])){
 							$sLog = $aQuickEditEntries[$sAttCode];
