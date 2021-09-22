@@ -338,13 +338,13 @@ CSS
 					// Retrieve log data in edit mode
 					$sLog = utils::ReadPostedParam('attr_'.$sAttCode, null, 'raw_data');
 					// If it's null, tries to fallback on quick-edit
-					if($sLog === null && !static::UseLegacy()){
+					if(empty($sLog) && !static::UseLegacy()){
 						$aQuickEditEntries = utils::ReadPostedParam('entries', [], utils::ENUM_SANITIZATION_FILTER_RAW_DATA);
 						if(isset($aQuickEditEntries[$sAttCode])){
 							$sLog = $aQuickEditEntries[$sAttCode];
 						}
 					}
-					if (($sOperation === 'yes') && $sLog !== null)
+					if (($sOperation === 'yes') && !empty($sLog))
 					{
 						$aFileDefs = utils::ReadParam('emry_files_'.$sAttCode, array(), false, 'raw_data');
 						unset($aTriggerContext['attachments']); 
