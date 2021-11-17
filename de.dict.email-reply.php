@@ -31,12 +31,12 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:TriggerOnLogUpdate/Attribute:target_log+' => 'Bezeichnet das zu berücksictigende log (z.B. public_log)',
 
 	'UI-emry-enable' => 'Sende die Antwort per Mail',
-	'UI-emry-enable:Short' => 'Notify~~',
+	'UI-emry-enable:Short' => 'Benachrichtige',
 	'UI-emry-noattachment' => 'Kein Attachment',
 	'UI-emry-caselog-prompt' => 'Geben Sie hier Ihren Text ein',
-	'UI-emry-select-attachments' => 'Attachments auswählen...',
-	'UI-emry-select-attachments:Short' => 'Attachments~~',
-	'UI-emry-attachments-to-be-sent' => 'Die folgenden Attachments werden versandt:',
-	'UI-emry-select-attachments-tooltip' => 'Klicken Sie, um die zu sendenden Attachments auszuwählen.',
+	'UI-emry-select-attachments' => 'Anhänge auswählen...',
+	'UI-emry-select-attachments:Short' => 'Anhänge...',
+	'UI-emry-attachments-to-be-sent' => 'Die folgenden Anhänge werden versandt:',
+	'UI-emry-select-attachments-tooltip' => 'Klicken Sie, um die zu sendenden Anhänge auszuwählen.',
 ));
 
