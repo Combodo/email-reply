@@ -24,7 +24,7 @@
 //
 // Class: TriggerOnLogUpdate
 //
-Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
+Dict::Add('ES CR', 'Spanish', 'Español, Castellano', array(
 	'Class:TriggerOnLogUpdate' => 'Disparador (cuando la bitácora es actualizada)',
 	'Class:TriggerOnLogUpdate+' => 'Disparador cuando el usuario actualiza bitácora',
 	'Class:TriggerOnLogUpdate/Attribute:target_log' => 'Código de Atributo en bitácora',
