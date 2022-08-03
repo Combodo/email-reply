@@ -17,7 +17,7 @@
 //   along with iTop. If not, see <http://www.gnu.org/licenses/>
 
 require_once(APPROOT.'/application/application.inc.php');
-require_once(__DIR__.'/../../approot.inc.php');
+
 //remove require itopdesignformat at the same time as version_compare(ITOP_DESIGN_LATEST_VERSION , '3.0') < 0
 if (! defined("ITOP_DESIGN_LATEST_VERSION")) {
 	require_once APPROOT.'setup/itopdesignformat.class.inc.php';
