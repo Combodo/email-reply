@@ -332,61 +332,59 @@ CSS
 	{
 		if (isset(self::$aHasFormSubmit[get_class($oObject)][$oObject->GetKey()]))
 		{
-			// Do it once and only once!
-			unset(self::$aHasFormSubmit[get_class($oObject)][$oObject->GetKey()]);
-
+			$bDisableTriggers = false;
 			$aCaseLogs = $this->ListTargetCaseLogs($oObject);
-			if (count($aCaseLogs) > 0)
-			{
+			if (count($aCaseLogs) > 0) {
 				$aOperations = utils::ReadPostedParam('emry_enabled', array());
 				$aTriggerContext = $oObject->ToArgs('this');
-		
-				foreach ($aCaseLogs as $sAttCode => $aTriggers)
-				{
-					$sOperation = isset($aOperations[$sAttCode]) ? $aOperations[$sAttCode] : 'no';
-					// Retrieve log data in edit mode
-					$sLog = utils::ReadPostedParam('attr_'.$sAttCode, null, 'raw_data');
-					// If it's null or empty, tries to fallback on quick-edit
-					if(empty($sLog) && !static::UseLegacy()){
-						$aQuickEditEntries = utils::ReadPostedParam('entries', [], utils::ENUM_SANITIZATION_FILTER_RAW_DATA);
-						if(isset($aQuickEditEntries[$sAttCode])){
-							$sLog = $aQuickEditEntries[$sAttCode];
-						}
-					}
-					if (($sOperation === 'yes') && !empty($sLog))
-					{
-						$aFileDefs = utils::ReadParam('emry_files_'.$sAttCode, array(), false, 'raw_data');
-						unset($aTriggerContext['attachments']); 
-						if (count($aFileDefs) > 0)
-						{
-							$aFiles = array();
-							foreach($aFileDefs as $sFileDef)
-							{
-								// Forward attachments into the pipe (via the context of the trigger)
-								$aMatches = array();
-								if (preg_match('|^(.+)::(.+)/(.+)$|', $sFileDef, $aMatches))
-								{
-									$sContainerClass = $aMatches[1];
-									$sContainerId = $aMatches[2];
-									$sBlobAttCode = $aMatches[3];
-									$oContainer = MetaModel::GetObject($sContainerClass, $sContainerId, false);
-									if ($oContainer) // defensive programming
-									{
-										$oFile = $oContainer->Get($sBlobAttCode);
-									}
-									$aFiles[] = $oFile;
-								}
+
+				foreach ($aCaseLogs as $sAttCode => $aTriggers) {
+					if (array_key_exists($sAttCode, $oObject->ListPreviousValuesForUpdatedAttributes())) {
+						$sOperation = isset($aOperations[$sAttCode]) ? $aOperations[$sAttCode] : 'no';
+						// Retrieve log data in edit mode
+						$sLog = utils::ReadPostedParam('attr_'.$sAttCode, null, 'raw_data');
+						// If it's null or empty, tries to fallback on quick-edit
+						if (empty($sLog) && !static::UseLegacy()) {
+							$aQuickEditEntries = utils::ReadPostedParam('entries', [], utils::ENUM_SANITIZATION_FILTER_RAW_DATA);
+							if (isset($aQuickEditEntries[$sAttCode])) {
+								$sLog = $aQuickEditEntries[$sAttCode];
 							}
-							$aTriggerContext['attachments'] = $aFiles;
 						}
-	
-						$aTriggerContext['case-log-reply'] = $sLog;
-						foreach ($aTriggers as $oTrigger)
-						{
-							$oTrigger->DoActivate($aTriggerContext);
+						if (($sOperation === 'yes') && !empty($sLog)) {
+							$aFileDefs = utils::ReadParam('emry_files_'.$sAttCode, array(), false, 'raw_data');
+							unset($aTriggerContext['attachments']);
+							if (count($aFileDefs) > 0) {
+								$aFiles = array();
+								foreach ($aFileDefs as $sFileDef) {
+									// Forward attachments into the pipe (via the context of the trigger)
+									$aMatches = array();
+									if (preg_match('|^(.+)::(.+)/(.+)$|', $sFileDef, $aMatches)) {
+										$sContainerClass = $aMatches[1];
+										$sContainerId = $aMatches[2];
+										$sBlobAttCode = $aMatches[3];
+										$oContainer = MetaModel::GetObject($sContainerClass, $sContainerId, false);
+										if ($oContainer) // defensive programming
+										{
+											$oFile = $oContainer->Get($sBlobAttCode);
+										}
+										$aFiles[] = $oFile;
+									}
+								}
+								$aTriggerContext['attachments'] = $aFiles;
+							}
+
+							$aTriggerContext['case-log-reply'] = $sLog;
+							foreach ($aTriggers as $oTrigger) {
+								$oTrigger->DoActivate($aTriggerContext);
+							}
+							$bDisableTriggers = true;
 						}
 					}
 				}
+			}
+			if ($bDisableTriggers) {
+				// Do it once and only once!
+				unset(self::$aHasFormSubmit[get_class($oObject)][$oObject->GetKey()]);
 			}
 		}
 	}
