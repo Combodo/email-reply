@@ -16,20 +16,20 @@
 
 SetupWebPage::AddModule(
 	__FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-	'email-reply/1.4.2-dev',
+	'email-reply/1.3.3',
 	array(
 		// Identification
 		//
-		'label' => 'Send Ticket Log Updates by Email',
-		'category' => 'business',
+		'label'        => 'Send Ticket Log Updates by Email',
+		'category'     => 'business',
 
 		// Setup
 		//
 		'dependencies' => array(
 			'itop-tickets/2.0.0',
 		),
-		'mandatory' => false,
-		'visible' => true,
+		'mandatory'    => false,
+		'visible'      => true,
 
 		// Components
 		//
