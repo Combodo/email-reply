@@ -43,11 +43,11 @@ SetupWebPage::AddModule(
 			'data.struct.ta-actions.xml',
 			'data.struct.ta-triggers.xml',
 			'data.struct.ta-links.xml',
-
 		),
 		'data.sample' => array(
 			// add your sample data XML files here,
 		),
+		'installer' => 'EmailReplyInstaller',
 
 		// Documentation
 		//
@@ -62,5 +62,18 @@ SetupWebPage::AddModule(
 	)
 );
 
+if (!class_exists('EmailReplyInstaller')) {
+// Module installation handler
+// Don't forget 'installer' in AddModule() !!!
+//
+	class EmailReplyInstaller extends ModuleInstallerAPI
+	{
+		public static function AfterDatabaseCreation(Config $oConfiguration, $sPreviousVersion, $sCurrentVersion)
+		{
+			SetupLog::info('Migrate Context for TriggerOnLogUpdate');
 
-?>
+			$sMigrate = "UPDATE priv_trigger SET context = '|GUI:Console|' WHERE context = '' AND realclass = 'TriggerOnLogUpdate';";
+			CMDBSource::Query($sMigrate);
+		}
+	}
+}
