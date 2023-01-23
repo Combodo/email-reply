@@ -57,7 +57,7 @@ class TriggerOnLogUpdate extends TriggerOnObject
 	{
 		/** @var \ormSet $oContext */
 		$oContext = $this->Get('context');
-		$oContext->Add(ContextTag::TAG_CONSOLE);
+		$oContext->Add('GUI:Console');
 		$this->Set('context', $oContext);
 		parent::PrefillCreationForm($aContextParam);
 	}
