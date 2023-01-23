@@ -84,6 +84,17 @@ class TriggerOnLogUpdate extends TriggerOnObject
 
 		return $iFlags;
 	}
+
+	public function ComputeValues()
+	{
+		parent::ComputeValues();
+		$oContext = $this->Get('context');
+		if (is_null($oContext)) {
+			$oContext = new ormSet(get_class($this), 'context');
+		}
+		$oContext->Add('GUI:Console');
+		$this->Set('context', $oContext);
+	}
 }
 // Add class definitions here
 
