@@ -39,5 +39,9 @@ Dict::Add('EN US', 'English', 'English', array(
 	'UI-emry-select-attachments:Short' => 'Attachments',
 	'UI-emry-attachments-to-be-sent' => 'The following attachments will be sent:',
 	'UI-emry-select-attachments-tooltip' => 'Click to select the attachments to be sent',
+	'UI-emry-attachment-label-with-uploadername-and-timestamp' => '<b>%1$s</b> by %2$s at %3$s',
+	'UI-emry-attachment-label-with-uploadername' => '<b>%1$s</b> by %2$s',
+	'UI-emry-attachment-label-with-timestamp' => '<b>%1$s</b> at %3$s',
+	'UI-emry-attachment-label' => '<b>%1$s</b>',
 ));
 
