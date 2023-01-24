@@ -60,7 +60,7 @@ class TriggerOnLogUpdate extends TriggerOnObject
 		if (is_null($oContext)) {
 			$oContext = new ormSet(get_class($this), 'context');
 		}
-		$oContext->Add('GUI:Console');
+		$oContext->Add(ContextTag::TAG_CONSOLE);
 		$this->Set('context', $oContext);
 		parent::PrefillCreationForm($aContextParam);
 	}
@@ -92,7 +92,7 @@ class TriggerOnLogUpdate extends TriggerOnObject
 		if (is_null($oContext)) {
 			$oContext = new ormSet(get_class($this), 'context');
 		}
-		$oContext->Add('GUI:Console');
+		$oContext->Add(ContextTag::TAG_CONSOLE);
 		$this->Set('context', $oContext);
 	}
 }
