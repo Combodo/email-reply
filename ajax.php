@@ -22,8 +22,8 @@ function MakeAttachmentLabel($oOrmDoc, $sObjClass, $iObjId)
 	$sTimeStampUpload = $oAttachment->Get('creation_date');
 	$sFileFormattedSize = $oOrmDoc->GetFormattedSize();
 	$sNameUploader = utils::HtmlEntities($oAttachment->Get('contact_id_friendlyname'));
-	$sAttachmentLabel = $oOrmDoc->GetFileName();
-	$sAttachmentLabel = utils::HtmlEntities($sAttachmentLabel);
+	$sFilename = $oOrmDoc->GetFileName();
+	$sFilenameForHtml = utils::HtmlEntities($sFilename);
 	$bHasUploaderName = $sNameUploader != '';
 	$bHasUploadTimestamp = $sTimeStampUpload != '';
 	$sDictEntryCode = 'UI-emry-attachment-label';
