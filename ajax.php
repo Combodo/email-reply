@@ -39,8 +39,7 @@ function MakeAttachmentLabel($oOrmDoc, $sObjClass, $iObjId)
 	{
 		$sDictEntryCode .= '-with-timestamp';
 	}
-	$sAttachmentLabel = Dict::Format($sDictEntryCode, $sAttachmentLabel, $sNameUploader, $sTimeStampUpload);
-	$sAttachmentLabel .= ' - '.$sFileFormattedSize;
+	$sAttachmentLabel = Dict::Format($sDictEntryCode, $sFilenameForHtml, $sFileFormattedSize, $sNameUploader, $sTimeStampUpload);
 	return $sAttachmentLabel;
 }
 
