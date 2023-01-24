@@ -70,7 +70,7 @@ if (!class_exists('EmailReplyInstaller')) {
 	{
 		public static function AfterDatabaseCreation(Config $oConfiguration, $sPreviousVersion, $sCurrentVersion)
 		{
-			SetupLog::info('Migrate Context for TriggerOnLogUpdate');
+			SetupLog::Info('Migrate Context for TriggerOnLogUpdate');
 
 			$sMigrate = "UPDATE priv_trigger SET context = '|GUI:Console|' WHERE context = '' AND realclass = 'TriggerOnLogUpdate';";
 			CMDBSource::Query($sMigrate);
