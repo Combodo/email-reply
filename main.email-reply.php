@@ -130,6 +130,7 @@ class EmailReplyPlugIn implements iApplicationUIExtension, iApplicationObjectExt
 		{
 			$bEnabled = (bool) MetaModel::GetModuleSetting('email-reply', 'enabled_default', true);
 			$sChecked = $bEnabled ? 'checked' : '';
+			$sEnabled = $bEnabled ? 'yes' : 'no';
 
 			if($bEditMode){
 				$oPage->add_ready_script("$('#form_2').append('<div id=\"emry_form_extension\"></div>');");
@@ -177,7 +178,7 @@ JS
 					$oPage->add_ready_script(
 						<<<JS
 $('[data-role=\"ibo-caselog-entry-form\"][data-attribute-code=\"$sAttCode\"] [data-role=\"ibo-caselog-entry-form--action-buttons--extra-actions\"]').append('<label><div class="emry-notify-input--wrapper ibo-button ibo-is-alternative ibo-is-neutral" data-tooltip-content="$sCheckboxTooltip"><input type="checkbox" $sChecked id="emry_enabled_toggler_$sAttCode" onChange="$(\'#emry_enabled_$sAttCode\').val(this.checked === true ? \'yes\' : \'no\')"/>$sCheckboxLabel</div></label></div><span id="emry_event_bus_$sAttCode"></span><span id="emry_file_list_$sAttCode" style="display: inline-block;"><button type="button" class="emry-button ibo-button ibo-is-regular ibo-is-neutral" id="emry_select_files_btn_$sAttCode" onclick="$sJSMethod"><span class="ibo-button--icon fas fa-paperclip"></span><span class=\"ibo-button--label\"><span id="emry_file_count_$sAttCode">0</span></span></button></span>');
-$('#emry_form_extension').append('<input type="checkbox" $sChecked id="emry_enabled_$sAttCode" name="emry_enabled[$sAttCode]" value="yes" style="display:none">');
+$('#emry_form_extension').append('<input type="hidden" id="emry_enabled_$sAttCode" name="emry_enabled[$sAttCode]" value="$sEnabled">');
 $('#emry_file_list_$sAttCode').attr('data-tooltip-content', '$sBtnTooltip');
 CombodoTooltip.InitTooltipFromMarkup($('.emry-notify-input--wrapper'), true);
 CombodoTooltip.InitTooltipFromMarkup($('#emry_file_list_$sAttCode'), true);
@@ -196,7 +197,8 @@ $('#attachment_plugin').bind('add_attachment', function(event, attId, sAttName, 
 $('#attachment_plugin').bind('remove_attachment', function(event, attId, sAttName) {
 	EmailReplyRemoveFile('$sAttCode', 'Attachment', attId, 'contents');
 } );
-$('#emry_enabled_$sAttCode').bind('click', function(event) {
+var sEmryEnabledCheckboxSelector = (IsEmailReplyLegacy === true) ? '#emry_enabled_' : '#emry_enabled_toggler_'
+$(sEmryEnabledCheckboxSelector+'$sAttCode').bind('click', function(event) {
 	EmailReplyUpdateFileCount('$sAttCode');
 } );
 JS
