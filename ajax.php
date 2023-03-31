@@ -16,6 +16,24 @@
 //   You should have received a copy of the GNU Affero General Public License
 //   along with iTop. If not, see <http://www.gnu.org/licenses/>
 
+function MakeAttachmentLabel($oOrmDoc, $sObjClass, $iObjId)
+{
+	$oAttachment = MetaModel::GetObject($sObjClass, $iObjId);
+	$sTimeStampUpload = $oAttachment->Get('creation_date');
+	$sFileFormattedSize = $oOrmDoc->GetFormattedSize();
+	$sNameUploader = utils::HtmlEntities($oAttachment->Get('contact_id_friendlyname'));
+	$sFilename = $oOrmDoc->GetFileName();
+	$sFilenameForHtml = utils::HtmlEntities($sFilename);
+	$bHasUploaderName = $sNameUploader != '';
+	$bHasUploadTimestamp = $sTimeStampUpload != '';
+	$sDictEntryCode = 'UI-emry-attachment-label';
+	$sDictEntryCode .= ($bHasUploaderName) ? '-with-uploadername' : '';
+	$sDictEntryCode .= ($bHasUploadTimestamp) ? '-with-timestamp' : '';
+	$sAttachmentLabel = Dict::Format($sDictEntryCode, $sFilenameForHtml, $sFileFormattedSize, $sNameUploader, $sTimeStampUpload);
+	return $sAttachmentLabel;
+}
+
+
 require_once(APPROOT.'/application/application.inc.php');
 
 //remove require itopdesignformat at the same time as version_compare(ITOP_DESIGN_LATEST_VERSION , '3.0') < 0
@@ -81,6 +99,7 @@ try
 				$oDoc = $oObj->Get($aData['sBlobAttCode']);
 				$sFileName = $oDoc->GetFileName();
 				$sIcon = utils::GetAbsoluteUrlAppRoot().AttachmentPlugIn::GetFileIcon($sFileName);
+				$sAttachmentLabel = MakeAttachmentLabel($oDoc, $sObjClass, $iObjId);
 				$sPreview = $oDoc->IsPreviewAvailable() ? 'true' : 'false';
 				$sChecked = ($aData['checked'] == 'true') ? ' checked' : '';
 				$sFileDef = $sObjClass.'::'.$iObjId.'/'.$aData['sBlobAttCode'];
@@ -92,7 +111,7 @@ try
 				if ($sPreview === 'true'){
 					$sPreviewData = utils::HtmlEntities('<img src="'.$sDownloadLink.'" style="max-width: '.$iMaxWidth.'"/>');
 				}
-				$oPage->add('<div style="vertical-align:middle;"><input type="checkbox" data-fileref="'.$sFileDef.'" id="'.$sId.'" '.$sChecked.'><label class="emry-attachment" data-preview="'.$sPreview.'" for="'.$sId.'" data-tooltip-html-enabled="true" data-tooltip-content="'.$sPreviewData.'">&nbsp;<img style="vertical-align:middle;" src="'.$sIcon.'" />&nbsp;'.htmlentities($sFileName, ENT_QUOTES, 'UTF-8').'</label></div>');
+				$oPage->add('<div style="vertical-align:middle;"><input type="checkbox" data-fileref="'.$sFileDef.'" id="'.$sId.'" '.$sChecked.'><label class="emry-attachment" data-preview="'.$sPreview.'" for="'.$sId.'" data-tooltip-html-enabled="true" data-tooltip-content="'.$sPreviewData.'">&nbsp;<img style="vertical-align:middle;" src="'.$sIcon.'" />&nbsp;'.$sAttachmentLabel.'</label></div>');
 				if(EmailReplyPlugIn::UseLegacy()) {
 					$oPage->add_ready_script(
 						<<<JS

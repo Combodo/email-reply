@@ -132,7 +132,9 @@ function EmailReplySelectAttachments(sCaseLogAttCode)
 	$('body').append(oDlg);
 	oDlg.dialog({
 		modal:true,
-		width: 500,
+		width: '70%',
+		minWidth: 'auto',
+		maxWidth: '90%',
 		height: 'auto',
 		maxHeight: $(window).height()*0.9,
 		title: Dict.S('UI-emry-select-attachments'),
