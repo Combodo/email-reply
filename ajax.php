@@ -24,11 +24,9 @@ function MakeAttachmentLabel($oOrmDoc, $sObjClass, $iObjId)
 	$sNameUploader = utils::HtmlEntities($oAttachment->Get('contact_id_friendlyname'));
 	$sFilename = $oOrmDoc->GetFileName();
 	$sFilenameForHtml = utils::HtmlEntities($sFilename);
-	$bHasUploaderName = $sNameUploader != '';
-	$bHasUploadTimestamp = $sTimeStampUpload != '';
 	$sDictEntryCode = 'UI-emry-attachment-label';
-	$sDictEntryCode .= ($bHasUploaderName) ? '-with-uploadername' : '';
-	$sDictEntryCode .= ($bHasUploadTimestamp) ? '-with-timestamp' : '';
+	$sDictEntryCode .= ($sNameUploader != '') ? '-with-uploadername' : '';
+	$sDictEntryCode .= ($sTimeStampUpload != '') ? '-with-timestamp' : '';
 	$sAttachmentLabel = Dict::Format($sDictEntryCode, $sFilenameForHtml, $sFileFormattedSize, $sNameUploader, $sTimeStampUpload);
 	return $sAttachmentLabel;
 }
