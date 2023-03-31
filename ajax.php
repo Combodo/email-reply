@@ -27,18 +27,8 @@ function MakeAttachmentLabel($oOrmDoc, $sObjClass, $iObjId)
 	$bHasUploaderName = $sNameUploader != '';
 	$bHasUploadTimestamp = $sTimeStampUpload != '';
 	$sDictEntryCode = 'UI-emry-attachment-label';
-	if ($bHasUploaderName && $bHasUploadTimestamp)
-	{
-		$sDictEntryCode .= '-with-uploadername-and-timestamp';
-	}
-	elseif ($bHasUploaderName && !$bHasUploadTimestamp)
-	{
-		$sDictEntryCode .= '-with-uploadername';
-	}
-	elseif (!$bHasUploaderName && $bHasUploadTimestamp) 
-	{
-		$sDictEntryCode .= '-with-timestamp';
-	}
+	$sDictEntryCode .= ($bHasUploaderName) ? '-with-uploadername' : '';
+	$sDictEntryCode .= ($bHasUploadTimestamp) ? '-with-timestamp' : '';
 	$sAttachmentLabel = Dict::Format($sDictEntryCode, $sFilenameForHtml, $sFileFormattedSize, $sNameUploader, $sTimeStampUpload);
 	return $sAttachmentLabel;
 }
