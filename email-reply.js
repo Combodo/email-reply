@@ -45,7 +45,9 @@ function EmailReplyRemoveFile(sCaseLogAttCode, sContainerClass, sContainerId, sB
 function EmailReplyUpdateFileCount(sCaseLogAttCode)
 {
 	var iCount  = aEmailReplyFiles[sCaseLogAttCode+'_file_count'];
-	var bEmailDisabled = ($('#emry_enabled_'+sCaseLogAttCode+':checked').length == 0);
+	var sEmryEnabledCheckboxSelector = (IsEmailReplyLegacy === true) ? '#emry_enabled_' : '#emry_enabled_toggler_';
+	var bEmailDisabled = ($(sEmryEnabledCheckboxSelector+sCaseLogAttCode+':checked').length == 0);
+
 	var sText = '';
 
 	if (bEmailDisabled)
@@ -100,7 +102,8 @@ function EmailReplyUpdateFileCount(sCaseLogAttCode)
 function EmailReplyTooltipContent(sCaseLogAttCode)
 {
 	var iCount  = aEmailReplyFiles[sCaseLogAttCode+'_file_count'];
-	var bEmailDisabled = ($('#emry_enabled_'+sCaseLogAttCode+':checked').length == 0);
+	var sEmryEnabledCheckboxSelector = (IsEmailReplyLegacy === true) ? '#emry_enabled_' : '#emry_enabled_toggler_';
+	var bEmailDisabled = ($(sEmryEnabledCheckboxSelector+sCaseLogAttCode+':checked').length == 0);
 
 	if ((bEmailDisabled) || (iCount == 0))
 	{
