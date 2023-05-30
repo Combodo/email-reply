@@ -72,7 +72,8 @@ if (!class_exists('EmailReplyInstaller')) {
 		{
 			SetupLog::Info('Migrate Context for TriggerOnLogUpdate');
 
-			$sMigrate = "UPDATE priv_trigger SET context = '|GUI:Console|' WHERE context = '' AND realclass = 'TriggerOnLogUpdate';";
+			$sTableName = MetaModel::DBGetTable('Trigger', 'context');
+			$sMigrate = "UPDATE `$sTableName` SET context = '|GUI:Console|' WHERE context = '' AND realclass = 'TriggerOnLogUpdate';";
 			CMDBSource::Query($sMigrate);
 		}
 	}
