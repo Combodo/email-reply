@@ -29,7 +29,6 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:TriggerOnLogUpdate+' => 'Déclencheur sur mise à jour du journal',
 	'Class:TriggerOnLogUpdate/Attribute:target_log' => 'Code du journal',
 	'Class:TriggerOnLogUpdate/Attribute:target_log+' => 'Code de l\'attribut du journal concerné',
-
 	'UI-emry-enable' => 'Envoyer votre réponse par Email',
 	'UI-emry-enable:Short' => 'Notifier',
 	'UI-emry-noattachment' => 'Aucun attachement',
@@ -38,5 +37,9 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'UI-emry-select-attachments:Short' => 'Pièces jointes',
 	'UI-emry-attachments-to-be-sent' => 'Les pièces jointes suivantes seront envoyées:',
 	'UI-emry-select-attachments-tooltip' => 'Cliquez pour choisir les pièces jointes à envoyer',
+	'UI-emry-attachment-label-with-uploadername-with-timestamp' => '<b>%1$s</b> by %3$s at %4$s - %2$s~~',
+	'UI-emry-attachment-label-with-uploadername' => '<b>%1$s</b> by %3$s - %2$s~~',
+	'UI-emry-attachment-label-with-timestamp' => '<b>%1$s</b> at %4$s - %2$s~~',
+	'UI-emry-attachment-label' => '<b>%1$s</b> - %2$s~~',
 ));
 

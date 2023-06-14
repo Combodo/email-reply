@@ -29,7 +29,6 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:TriggerOnLogUpdate+' => 'Trigger auf ein Update eines Logs durch einen Endbenutzer',
 	'Class:TriggerOnLogUpdate/Attribute:target_log' => 'Attributname des Logs',
 	'Class:TriggerOnLogUpdate/Attribute:target_log+' => 'Bezeichnet das zu berücksictigende log (z.B. public_log)',
-
 	'UI-emry-enable' => 'Sende die Antwort per Mail',
 	'UI-emry-enable:Short' => 'Benachrichtige',
 	'UI-emry-noattachment' => 'Kein Attachment',

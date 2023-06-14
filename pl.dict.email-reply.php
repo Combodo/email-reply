@@ -20,10 +20,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with iTop. If not, see <http://www.gnu.org/licenses/>
  */
+
 //
 // Class: TriggerOnLogUpdate
 //
-Dict::Add('ZH CN', 'Chinese', '简体中文', array(
+
+Dict::Add('PL PL', 'Polish', 'Polski', array(
 	'Class:TriggerOnLogUpdate' => 'Trigger (when log is updated)~~',
 	'Class:TriggerOnLogUpdate+' => 'Trigger on a end-user\'s update in log~~',
 	'Class:TriggerOnLogUpdate/Attribute:target_log' => 'Log attribute code~~',

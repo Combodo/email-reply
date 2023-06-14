@@ -15,7 +15,6 @@ Dict::Add('RU RU', 'Russian', 'Русский', array(
 	'Class:TriggerOnLogUpdate+' => 'Триггер на обновление журнала пользователем',
 	'Class:TriggerOnLogUpdate/Attribute:target_log' => 'Журнал',
 	'Class:TriggerOnLogUpdate/Attribute:target_log+' => 'Укажите код атрибута журнала для отслеживания, например, public_log',
-
 	'UI-emry-enable' => 'Отправить ответ по email',
 	'UI-emry-enable:Short' => 'Notify~~',
 	'UI-emry-noattachment' => 'Вложений нет',
@@ -24,5 +23,9 @@ Dict::Add('RU RU', 'Russian', 'Русский', array(
 	'UI-emry-select-attachments:Short' => 'Attachments~~',
 	'UI-emry-attachments-to-be-sent' => 'Будут отправлены следующие вложения:',
 	'UI-emry-select-attachments-tooltip' => 'Выбрать вложения для отправки',
+	'UI-emry-attachment-label-with-uploadername-with-timestamp' => '<b>%1$s</b> by %3$s at %4$s - %2$s~~',
+	'UI-emry-attachment-label-with-uploadername' => '<b>%1$s</b> by %3$s - %2$s~~',
+	'UI-emry-attachment-label-with-timestamp' => '<b>%1$s</b> at %4$s - %2$s~~',
+	'UI-emry-attachment-label' => '<b>%1$s</b> - %2$s~~',
 ));
 
