@@ -307,7 +307,9 @@ CSS
 	 * Helper to determine the case logs for the given class
 	 * Conditions:
 	 *  1) There is at least one trigger "on log update" for this class
-	 *  2) 	 	 	 	
+	 *  2)
+	 *
+	 * @param \DBObject $oObject
 	 */	
 	protected function ListTargetCaseLogs($oObject)
 	{
@@ -362,7 +364,9 @@ CSS
 	/**
 	 * Helper to execute the triggers, if any
 	 * This code cannot be executed while the form is being submitted because the object is not recorded
-	 * and it is sometimes required to have the object already recorded (eg: send a notification to the persons attached to the object)	 	 
+	 * and it is sometimes required to have the object already recorded (eg: send a notification to the persons attached to the object)
+	 *
+	 * @param \DBObject $oObject
 	 */	 
 	protected function HandleTriggers($oObject)
 	{
