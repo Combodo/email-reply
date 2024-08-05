@@ -139,7 +139,13 @@ class EmailReplyPlugIn implements iApplicationUIExtension, iApplicationObjectExt
 			{
 				$sModuleUrl = utils::GetAbsoluteUrlModulesRoot().'email-reply/';
 				$oPage->add_ready_script("IsEmailReplyLegacy = $sIsLegacy;");
-				$oPage->add_linked_script($sModuleUrl.'email-reply.js');
+
+				if (version_compare(ITOP_DESIGN_LATEST_VERSION , '3.2', '>=')) {
+					$oPage->LinkScriptFromModule('email-reply/email-reply.js');
+				}
+				else{
+					$oPage->add_linked_script($sModuleUrl.'email-reply.js');
+				}
 				
 				$oPage->add_dict_entry('UI-emry-enable');
 				$oPage->add_dict_entry('UI-emry-noattachment');
