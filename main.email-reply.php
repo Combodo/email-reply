@@ -22,6 +22,11 @@
  * @author      Denis Flaven <denis.flaven@combodo.com>
  * @license     http://www.opensource.org/licenses/gpl-3.0.html LGPL
  */
+
+use Combodo\iTop\Service\Events\EventData;
+use Combodo\iTop\Service\Events\EventService;
+use Combodo\iTop\Service\Events\iEventServiceSetup;
+
 /**
  * To trigger notifications when a ticket is updated from the portal
  */
@@ -103,9 +108,8 @@ class TriggerOnLogUpdate extends TriggerOnObject
 // Declare a class that implements iBackgroundProcess (will be called by the cron)
 // Extend the class AsyncTask to create a queue of asynchronous tasks (process by the cron)
 // Declare a class that implements iApplicationUIExtension (to tune object display and edition form)
-// Declare a class that implements iApplicationObjectExtension (to tune object read/write rules)
 
-class EmailReplyPlugIn implements iApplicationUIExtension, iApplicationObjectExtension
+class EmailReplyPlugIn implements iApplicationUIExtension, iEventServiceSetup
 {
 	const XML_LEGACY_VERSION = '1.7';
 
@@ -274,35 +278,6 @@ CSS
 		return array();
     }
 
-	public function OnIsModified($oObject)
-	{
-		return false;
-	}
-
-	public function OnCheckToWrite($oObject)
-	{
-		return array();
-	}
-
-	public function OnCheckToDelete($oObject)
-	{
-		return array();
-	}
-
-	public function OnDBUpdate($oObject, $oChange = null)
-	{
-		$this->HandleTriggers($oObject);
-	}
-	
-	public function OnDBInsert($oObject, $oChange = null)
-	{
-		$this->HandleTriggers($oObject);
-	}
-	
-	public function OnDBDelete($oObject, $oChange = null)
-	{	
-	}
-
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	// Plug-ins specific functions
@@ -434,4 +409,15 @@ CSS
 			}
 		}
 	}
+
+    public function RegisterEventsAndListeners() : void
+    {
+        EventService::RegisterListener(EVENT_DB_AFTER_WRITE, [$this, 'OnDBAfterWrite']);
+    }
+
+    public function OnDBAfterWrite(EventData $oEventData)
+    {
+        $oObject = $oEventData->Get('object');
+        $this->HandleTriggers($oObject);
+    }
 }
