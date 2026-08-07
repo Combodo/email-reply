@@ -1,4 +1,5 @@
 <?php
+
 // Copyright (C) 2010 Combodo SARL
 //
 //   This program is free software; you can redistribute it and/or modify
@@ -17,7 +18,7 @@
 SetupWebPage::AddModule(
 	__FILE__, // Path to the current file, all other file names are relative to the directory containing this file
 	'email-reply/1.4.6',
-	array(
+	[
 		// Identification
 		//
 		'label'        => 'Send Ticket Log Updates by Email',
@@ -25,28 +26,28 @@ SetupWebPage::AddModule(
 
 		// Setup
 		//
-		'dependencies' => array(
+		'dependencies' => [
 			'itop-tickets/2.0.0',
-		),
+		],
 		'mandatory'    => false,
 		'visible'      => true,
 
 		// Components
 		//
-		'datamodel' => array(
-			'main.email-reply.php'
-		),
-		'webservice' => array(
+		'datamodel' => [
+			'main.email-reply.php',
+		],
+		'webservice' => [
 
-		),
-		'data.struct' => array(
-			'data.struct.ta-actions.xml',
-			'data.struct.ta-triggers.xml',
-			'data.struct.ta-links.xml',
-		),
-		'data.sample' => array(
+		],
+		'data.struct' => [
+			'data/data.struct.ta-actions.xml',
+			'data/data.struct.ta-triggers.xml',
+			'data/data.struct.ta-links.xml',
+		],
+		'data.sample' => [
 			// add your sample data XML files here,
-		),
+		],
 		'installer' => 'EmailReplyInstaller',
 
 		// Documentation
@@ -56,16 +57,16 @@ SetupWebPage::AddModule(
 
 		// Default settings
 		//
-		'settings' => array(
+		'settings' => [
 			'enabled_default' => true,
-		),
-	)
+		],
+	]
 );
 
 if (!class_exists('EmailReplyInstaller')) {
-// Module installation handler
-// Don't forget 'installer' in AddModule() !!!
-//
+	// Module installation handler
+	// Don't forget 'installer' in AddModule() !!!
+	//
 	class EmailReplyInstaller extends ModuleInstallerAPI
 	{
 		public static function AfterDatabaseCreation(Config $oConfiguration, $sPreviousVersion, $sCurrentVersion)
